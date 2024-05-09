@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Tennis Contest</title>
+	<link rel="stylesheet" href="../static/csss/home.css">
+</head>
+
+<body style="height: 100%;">
+	<header class="navbar">
+		<nav>
+			<div id="logo">Tennis Contest</div>
+			<div class="btn">
+				<a href="register">
+					<button>Register</button>
+				</a>
+			</div>
+		</nav>
+	</header>
+	<!-- https://as2.ftcdn.net/v2/jpg/02/83/17/77/1000_F_283177782_cnb9aiOrpF0l73ICfKJlH3t3mXOXS2mv.jpg -->
+	<div class="slider-frame">
+		<div class="slide-images">
+			<div class="img-container" style="height: 780px;">
+				<img
+					src="https://www.verywellfit.com/thmb/qycrFB0mInWWvE56WnxjHykBkEI=/5120x3413/filters:fill(FFDB5D,1)/overhead-view-of-young-male-tennis-player-playing-tennis--serving-the-ball-on-sunny-blue-tennis-court-750415275-5af9b096ff1b780020dd927d.jpg">
+			</div>
+			<div class="img-container" style="height: 550px;">
+				<img src="../static/image/murray-1568x1090.jpg">
+			</div>
+			<div class="img-container" style="height: 680px;">
+				<img
+					src="https://tenniscamper.com/wp-content/uploads/tennis-camp_back-court-return_1080x524-1024x497.jpg">
+			</div>
+		</div>
+	</div>
+
+	<div class="midtext">
+		<h1>Discover Our Tournaments</h1>
+	</div>
+
+	<div class="cards">
+        <div class="wrapper">
+            {% for card in cards %}
+            <div class="slider">
+                <div class="card card1">
+                    <div class="container">
+                        <h1>{{ card.heading }}</h1>
+                    </div>
+                    <div class="details">
+                        <ul>
+                            {% if card.point1 %}
+                            <li>{{ card.point1 }}</li>
+                            {% endif %}
+                            {% if card.point2 %}
+                            <li>{{ card.point2 }}</li>
+                            {% endif %}
+                            {% if card.point3 %}
+                            <li>{{ card.point3 }}</li>
+                            {% endif %}
+                            {% if card.point4 %}
+                            <li>{{ card.point4 }}</li>
+                            {% endif %}
+                            {% if card.point5 %}
+                            <li>{{ card.point5 }}</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+	<script src="../static/home.js"></script>
+</body>
+
+</html>

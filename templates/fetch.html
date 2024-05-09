@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch Image from Unsplash</title>
+</head>
+<body>
+    <img id="background-image" src="" alt="Background Image">
+    
+    <script>
+        fetch('https://source.unsplash.com/1536x300/?tennis,hd')
+            .then(response => {
+                // Check if response is successful
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                // Set the image source to the response URL
+                document.getElementById('background-image').src = response.url;
+            })
+            .catch(error => {
+                console.error('There was a problem fetching the image:', error);
+            });
+    </script>
+</body>
+</html>
