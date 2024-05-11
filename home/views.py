@@ -1,31 +1,31 @@
 from django.shortcuts import render,redirect
 from .models import Participant,FirstEvent,SecondEvent,card
 import random
-import oracledb
+# import oracledb
 import datetime
 
 # to connect oracle database
-conn = oracledb.connect(user='tennisdba', password='password', host="localhost", port=1521)
+# conn = oracledb.connect(user='tennisdba', password='password', host="localhost", port=1521)
 
-list1=[]
-#function to generate random id for first_event
-def generate1(value):
-    random_number = random.randint(1, 9999)
-    if random_number not in value:
-        return random_number
-    else:
-        generate1(value)
+# list1=[]
+# #function to generate random id for first_event
+# def generate1(value):
+#     random_number = random.randint(1, 9999)
+#     if random_number not in value:
+#         return random_number
+#     else:
+#         generate1(value)
 
-list2=[]
-#function to generate random id for second_event
-def generate2(value):
-    random_number = random.randint(1, 9999)
-    if random_number not in value:
-        return random_number
-    else:
-        generate2(value)
+# list2=[]
+# #function to generate random id for second_event
+# def generate2(value):
+#     random_number = random.randint(1, 9999)
+#     if random_number not in value:
+#         return random_number
+#     else:
+#         generate2(value)
 
-list2=[]
+# list2=[]
 #function to generate random id for participants
 def generate_id(participant_ids):
     random_number = random.randint(1, 9999)
@@ -223,53 +223,53 @@ def final_save(request):
 
         # inserting values in participant table
 
-        if isinstance(date_of_birth, str):
-            date_of_birth = datetime.datetime.strptime(date_of_birth, '%Y-%m-%d')
-        try:
-            cur = conn.cursor()
-            insert_query = """INSERT INTO PARTICIPANTS(id,name, whatsapp_number, date_of_birth, city, email, tshirt_size, shorts_size, food_preference, stay_arrangement, first_event_id, second_event_id) 
-                              VALUES(:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11,:12)"""
-            result=cur.execute(insert_query, (participant_id,name, whatsapp_number, date_of_birth, city, email, indian_tree_tshirt_size, indian_tree_shorts_size, food_preference, stay_arrangement, first, second))
-            conn.commit()
-            print(result)
-            print("Data inserted successfully")
-        except oracledb.Error as error:
-            print('Error occurred:', error)
-        finally:
-            if 'cur' in locals():
-                cur.close()
-            if 'conn' in locals():
-                conn.close()
+        # if isinstance(date_of_birth, str):
+        #     date_of_birth = datetime.datetime.strptime(date_of_birth, '%Y-%m-%d')
+        # try:
+        #     cur = conn.cursor()
+        #     insert_query = """INSERT INTO PARTICIPANTS(id,name, whatsapp_number, date_of_birth, city, email, tshirt_size, shorts_size, food_preference, stay_arrangement, first_event_id, second_event_id) 
+        #                       VALUES(:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11,:12)"""
+        #     result=cur.execute(insert_query, (participant_id,name, whatsapp_number, date_of_birth, city, email, indian_tree_tshirt_size, indian_tree_shorts_size, food_preference, stay_arrangement, first, second))
+        #     conn.commit()
+        #     print(result)
+        #     print("Data inserted successfully")
+        # except oracledb.Error as error:
+        #     print('Error occurred:', error)
+        # finally:
+        #     if 'cur' in locals():
+        #         cur.close()
+        #     if 'conn' in locals():
+        #         conn.close()
 
-        # inserting value in first_event table
-        try:
-            connection = oracledb.connect(user='tennisdba', password='password', host="localhost", port=1521)
-
-
-            cur2=conn.cursor()
-            first_event_ids_list=list(cur2.execute("select first_event_id from firstevent"))
-            first_event_id=generate1(first_event_ids_list)
-            print(type(first_event_id))
-            sql = """INSERT INTO FirstEvent 
-                    (FIRST_EVENT_ID,EVENT_CHOICE, EVENT_PARTNER, TSHIRT_SIZE, SHORTS_SIZE, FOOD_PREFERENCE, STAY_ARRANGEMENT) 
-                    VALUES(:FIRST_EVENT_ID,:EVENT_CHOICE, :EVENT_PARTNER, :TSHIRT_SIZE, :SHORTS_SIZE, :FOOD_PREFERENCE, :STAY_ARRANGEMENT)"""
+        # # inserting value in first_event table
+        # try:
+        #     connection = oracledb.connect(user='tennisdba', password='password', host="localhost", port=1521)
 
 
-            cursor = connection.cursor()
+        #     cur2=conn.cursor()
+        #     first_event_ids_list=list(cur2.execute("select first_event_id from firstevent"))
+        #     first_event_id=generate1(first_event_ids_list)
+        #     print(type(first_event_id))
+        #     sql = """INSERT INTO FirstEvent 
+        #             (FIRST_EVENT_ID,EVENT_CHOICE, EVENT_PARTNER, TSHIRT_SIZE, SHORTS_SIZE, FOOD_PREFERENCE, STAY_ARRANGEMENT) 
+        #             VALUES(:FIRST_EVENT_ID,:EVENT_CHOICE, :EVENT_PARTNER, :TSHIRT_SIZE, :SHORTS_SIZE, :FOOD_PREFERENCE, :STAY_ARRANGEMENT)"""
 
 
-            cursor.execute(sql, {'FIRST_EVENT_ID':first_event_id,'EVENT_CHOICE':first_event_choice , 'EVENT_PARTNER': first_event_partner, 
-                                'TSHIRT_SIZE': p1_indian_tree_tshirt_size, 
-                                'SHORTS_SIZE': p1_indian_tree_shorts_size, 'FOOD_PREFERENCE': p1_food_preference, 
-                                'STAY_ARRANGEMENT': p1_stay_arrangement})
+        #     cursor = connection.cursor()
 
 
-            connection.commit()
+        #     cursor.execute(sql, {'FIRST_EVENT_ID':first_event_id,'EVENT_CHOICE':first_event_choice , 'EVENT_PARTNER': first_event_partner, 
+        #                         'TSHIRT_SIZE': p1_indian_tree_tshirt_size, 
+        #                         'SHORTS_SIZE': p1_indian_tree_shorts_size, 'FOOD_PREFERENCE': p1_food_preference, 
+        #                         'STAY_ARRANGEMENT': p1_stay_arrangement})
 
-            print("Data inserted into FirstEvent table successfully")
 
-        except oracledb.Error as error:
-            print('Error occurred:', error)
+        #     connection.commit()
+
+        #     print("Data inserted into FirstEvent table successfully")
+
+        # except oracledb.Error as error:
+        #     print('Error occurred:', error)
 
 
 
