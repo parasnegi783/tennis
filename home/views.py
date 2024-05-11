@@ -276,30 +276,30 @@ def final_save(request):
 
 
 
-        try:
+        # try:
 
-            cur2=conn.cursor()
-            second_event_ids_list=list(cur2.execute("select second_event_id from secondevent"))
-            second_event_id=generate1(second_event_ids_list)
+        #     cur2=conn.cursor()
+        #     second_event_ids_list=list(cur2.execute("select second_event_id from secondevent"))
+        #     second_event_id=generate1(second_event_ids_list)
 
-            cursor = conn.cursor()
+        #     cursor = conn.cursor()
 
-            sql = """INSERT INTO SecondEvent 
-                    (Second_EVENT_ID,EVENT_CHOICE, EVENT_PARTNER, TSHIRT_SIZE, SHORTS_SIZE, FOOD_PREFERENCE, STAY_ARRANGEMENT) 
-                    VALUES(:Second_EVENT_ID,:EVENT_CHOICE, :EVENT_PARTNER, :TSHIRT_SIZE, :SHORTS_SIZE, :FOOD_PREFERENCE, :STAY_ARRANGEMENT)"""
+        #     sql = """INSERT INTO SecondEvent 
+        #             (Second_EVENT_ID,EVENT_CHOICE, EVENT_PARTNER, TSHIRT_SIZE, SHORTS_SIZE, FOOD_PREFERENCE, STAY_ARRANGEMENT) 
+        #             VALUES(:Second_EVENT_ID,:EVENT_CHOICE, :EVENT_PARTNER, :TSHIRT_SIZE, :SHORTS_SIZE, :FOOD_PREFERENCE, :STAY_ARRANGEMENT)"""
 
-            cursor.execute(sql, {'Second_EVENT_ID':second_event_id,'EVENT_CHOICE':second_event_choice , 'EVENT_PARTNER': second_event_partner, 
-                                'TSHIRT_SIZE': p2_indian_tree_tshirts_size, 
-                                'SHORTS_SIZE': p2_indian_tree_shorts_size, 'FOOD_PREFERENCE': p2_food_preference, 
-                                'STAY_ARRANGEMENT': p2_stay_arrangement})
+        #     cursor.execute(sql, {'Second_EVENT_ID':second_event_id,'EVENT_CHOICE':second_event_choice , 'EVENT_PARTNER': second_event_partner, 
+        #                         'TSHIRT_SIZE': p2_indian_tree_tshirts_size, 
+        #                         'SHORTS_SIZE': p2_indian_tree_shorts_size, 'FOOD_PREFERENCE': p2_food_preference, 
+        #                         'STAY_ARRANGEMENT': p2_stay_arrangement})
 
 
-            connection.commit()
+        #     connection.commit()
 
-            print("Data inserted into SecondEvent table successfully")
+        #     print("Data inserted into SecondEvent table successfully")
 
-        except oracledb.Error as error:
-            print('Error occurred:', error)
+        # except oracledb.Error as error:
+        #     print('Error occurred:', error)
 
 
         request.session.clear()
