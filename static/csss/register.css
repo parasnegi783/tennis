@@ -11,7 +11,7 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #4070f4;
+    background: #E3F2FD;
 }
 .container{
     position: relative;
@@ -143,25 +143,9 @@ form .fields .input-field{
     justify-content: space-between;
 }
 
-.main .my button,a{
-    /* display: flex; */
-    /* flex-direction: column;
-    align-items: center;
-    justify-content: center; */
-    height: 55px;
-    max-width: 200px;
-    width: 120px;
-    border: none;
-    outline: none;
+ .main .my button,a{
     color: #fff;
-    border-radius: 5px;
-    margin: 25px 0;
-    text-decoration: none;
-    background-color: #4070f4;
-    transition: all 0.3s linear;
-    cursor: pointer;
-    font-size: 20px;
-}
+} 
 
 .button-like {
     display: inline-block;
@@ -176,4 +160,62 @@ form .fields .input-field{
 
 .button-like:hover {
     background-color: #0056b3; 
+}
+
+
+@media (max-width: 750px) {
+    .container form {
+        overflow-y: scroll;
+    }
+    .container form::-webkit-scrollbar {
+        display: none;
+    }
+    form .fields .input-field {
+        width: 100%; /* Change width for smaller screens */
+    }
+}
+
+/* Further adjustments for even smaller screens */
+@media (max-width: 550px) {
+    .container {
+        padding: 15px; /* Adjust padding for smaller screens */
+    }
+    form .fields .input-field {
+        width: 100%; /* Adjust width for smaller screens */
+    }
+    .main {
+        flex-direction: column; /* Stack buttons vertically on smaller screens */
+    }
+    .main .my button,
+    a {
+        width: 100%; /* Make buttons full width on smaller screens */
+        max-width: none; /* Remove max-width */
+    }
+}
+
+@media (max-width: 750px) {
+    /* Other media query adjustments */
+
+    .input-field {
+        width: 100%; /* Adjust width for smaller screens */
+    }
+
+    .input-field:nth-child(7),
+    .input-field:nth-child(8) {
+        /* Style adjustments for the last two input fields */
+        display: flex;
+        flex-direction: column;
+        min-width: unset;
+        min-height: unset;
+    }
+}
+
+@media (max-width: 550px) {
+    /* Other media query adjustments */
+
+    .input-field:nth-child(7),
+    .input-field:nth-child(8) {
+        /* Further adjustments for even smaller screens */
+        width: 100%; /* Make the width 100% */
+    }
 }

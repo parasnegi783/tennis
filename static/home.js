@@ -26,34 +26,39 @@ function startSlideshow() {
 // Start the slideshow
 startSlideshow();
 
+const wrapper = document.querySelector('.wrapper');
 
-
-
-
-const wrapper = document.querySelector('.wrapper')
-
-let pressed = false
-let startX = 0
+let startX = 0;
+let isTextHovered = false;
 
 wrapper.addEventListener('mousedown', function (e) {
-  pressed = true
-  startX = e.clientX
-  this.style.cursor = 'grabbing'
-})
+    if (!isTextHovered) {
+        startX = e.clientX;
+        wrapper.style.cursor = 'grabbing';
+    }
+});
 
-wrapper.addEventListener('mouseleave', function (e) {
-  pressed = false
-})
+wrapper.addEventListener('mouseleave', function () {
+    wrapper.style.cursor = 'grab';
+});
 
-window.addEventListener('mouseup', function (e) {
-  pressed = false
-  wrapper.style.cursor = 'grab'
-})
+window.addEventListener('mouseup', function () {
+    wrapper.style.cursor = 'grab';
+});
 
 wrapper.addEventListener('mousemove', function (e) {
-  if(!pressed) {
-    return
-  }
+    if (!isTextHovered) {
+        const moveX = startX - e.clientX;
+        wrapper.scrollLeft += moveX;
+        startX = e.clientX;
+    }
+});
 
-  this.scrollLeft += startX - e.clientX
-})
+// Detect if the mouse is over text within the cards
+wrapper.addEventListener('mouseover', function (e) {
+    if (e.target.tagName === 'UL' || e.target.tagName === 'LI') {
+        isTextHovered = true;
+    } else {
+        isTextHovered = false;
+    }
+});
