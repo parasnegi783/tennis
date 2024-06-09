@@ -14,11 +14,15 @@ class card(models.Model):
 class Participant(models.Model):
     participant_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100,null=True, default=None)
-    whatsapp_number = models.CharField(max_length=15,null=True, default=None)
+    whatsapp_number = models.CharField(max_length=15,null=True, default=None, unique=True)
     date_of_birth = models.DateField(null=True, default=None)
     city = models.CharField(max_length=100,null=True, default=None)
-    first_event = models.CharField(max_length=20,null=True, default=None)
-    second_event = models.CharField(max_length=20,null=True, default=None)
+    first_event_category = models.CharField(max_length=20,null=True, default=None)
+    first_event_partner = models.CharField(max_length=20,null=True, default=None)
+    first_event_id = models.CharField(max_length=20,null=True, default=None)
+    second_event_category = models.CharField(max_length=20,null=True, default=None)
+    second_event_partner = models.CharField(max_length=20,null=True, default=None)
+    second_event_id = models.CharField(max_length=20,null=True, default=None)
     indian_tree_tshirt_size = models.CharField(max_length=20,null=True, default=None)
     indian_tree_shorts_size = models.CharField(max_length=20,null=True, default=None)
     food_preference = models.CharField(max_length=20,null=True, default=None)
@@ -27,3 +31,6 @@ class Participant(models.Model):
 
     def __str__(self):
         return str(self.name)
+    
+
+

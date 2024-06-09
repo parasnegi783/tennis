@@ -1,0 +1,6 @@
+/* CSS for Windows aspect ratio */
+@media screen and (min-width: 992px) {
+    .slider, .slides {
+        height: calc(100vw * (4.5 / 16)) !important; /* Aspect ratio 16:4.5 */
+    }
+}

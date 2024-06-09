@@ -11,82 +11,169 @@
 </head>
 
 
-<body>
+
+<body onload="loadDraft()">
 
     <div class="row">
-        <form action="{% url 'save_participant' %}" method="post">
+        <form id="registrationForm" action="{% if loggedUser %}{% url 'update_save_participant' %}{% else %}{% url 'save_participant' %}{% endif %}" method="post" onsubmit="clearDraft()">
             {% csrf_token %}
             <div class="col s12">
                 <div class="card-panel">
                     <span class="title">Personal Details</span>
-                    {% for participant in participants %}
+                    {% if loggerUser %}
+                        <div class="btn-floating btn-small waves-effect waves-light blue" id="smallButton" onclick="editDraft()">
+                            <i class="material-icons" id="buttonIcon">edit</i>
+                        </div>
+                    {% else %}
+                        <div class="btn-floating btn-small waves-effect waves-light blue" id="smallButton" onclick="saveDraft()">
+                            <i class="material-icons" id="buttonIcon">add</i>
+                        </div>
+                    {% endif %}
                     <div class="row">
                         <div class="input-field col s12 m4">
-                            <input id="name" type="text" class="validate" name="name" {% if participant %}
-                                value="{{ participant.name }}" readonly {% endif %} required>
+                            <input id="name" type="text" class="validate" name="name" {% if draftData.name %}
+                                value="{{ draftData.name }}" {% elif loggedUser %}
+                                value="{{ loggedUser.name }}" {% endif %}>
                             <label for="name">Full Name</label>
                         </div>
                         <div class="input-field col s12 m4">
-                            <input id="date_of_birth" type="text" class="datepicker" name="date_of_birth" required>
+                            <input id="date_of_birth" type="text" class="datepicker" name="date_of_birth" 
+                            {% if draftData.date_of_birth %}
+                                value="{{ draftData.date_of_birth }}"
+                            {% elif loggedUser %} value="{{ loggedUser.date_of_birth|date:'Y-m-d' }}" {% endif %} required>
                             <label for="date_of_birth">Date of Birth</label>
                         </div>
                         <div class="input-field col s12 m4">
-                            <input id="whatsapp_number" type="number" class="validate" name="whatsapp_number" required>
+                            <input id="whatsapp_number" type="number" class="validate" name="whatsapp_number"
+                            {% if draftData.whatsapp_number %}
+                                value="{{ draftData.whatsapp_number }}" 
+                            {% elif loggedUser %} value="{{ loggedUser.whatsapp_number }}" {% endif %} required>
                             <label for="whatsapp_number">Whatsapp Number</label>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="input-field col s12 m4">
-                            <input id="city" type="text" class="validate" name="city" required>
+                            <input id="city" type="text" class="validate" name="city" 
+                            {% if draftData.city %}
+                                value="{{ draftData.city }}"
+                            {% elif loggedUser %}
+                                value="{{ loggedUser.city }}" {% endif %} required>
                             <label for="city">City</label>
                         </div>
                         <div class="input-field col s12 m4">
-                            <input id="email" type="email" class="validate" name="email" required>
+                            <input id="email" type="email" class="validate" name="email" 
+                            {% if draftData.email %}
+                                value="{{ draftData.email }}"
+                            {% elif loggedUser %}
+                                value="{{ loggedUser.email }}" {% endif %} required>
                             <label for="email">Email</label>
                         </div>
                         <div class="input-field col s12 m4">
-                            <select id="indian_tree_tshirt-size" name="indian_tree_tshirt-size" required>
-                                <option value="" disabled selected>Select T-Shirt Size</option>
+                                    <select id="indian_tree_tshirt_size" name="indian_tree_tshirt_size" required>                                 
+                                        {% if loggedUser %}
+                                            <option value="" disabled selected>Select T-Shirt Size</option>
+                                            <option value="small" {% if loggedUser.indian_tree_tshirt_size == 'small' %} selected {% endif %}>Small</option>
+                                            <option value="medium" {% if loggedUser.indian_tree_tshirt_size == 'medium' %} selected {% endif %}>Medium</option>
+                                            <option value="large" {% if loggedUser.indian_tree_tshirt_size == 'large' %} selected {% endif %}>Large</option>
+                                            <option value="xlarge" {% if loggedUser.indian_tree_tshirt_size == 'xlarge' %} selected {% endif %}>XLarge</option>
+                                            <option value="xxlarge" {% if loggedUser.indian_tree_tshirt_size == 'xxlarge' %} selected {% endif %}>XXLarge</option>
+                                            <option value="no_need" {% if loggedUser.indian_tree_tshirt_size == 'no_need' %} selected {% endif %}>I don't need</option>
+                                        {% elif draftData.indian_tree_tshirt_size %}
+                                            <option value="" disabled selected>Select T-Shirt Size</option>
+                                            <option value="small" {% if draftData.indian_tree_tshirt_size == 'small' %} selected {% endif %}>Small</option>
+                                            <option value="medium" {% if draftData.indian_tree_tshirt_size == 'medium' %} selected {% endif %}>Medium</option>
+                                            <option value="large" {% if draftData.indian_tree_tshirt_size == 'large' %} selected {% endif %}>Large</option>
+                                            <option value="xlarge" {% if draftData.indian_tree_tshirt_size == 'xlarge' %} selected {% endif %}>XLarge</option>
+                                            <option value="xxlarge" {% if draftData.indian_tree_tshirt_size == 'xxlarge' %} selected {% endif %}>XXLarge</option>
+                                            <option value="no_need" {% if draftData.indian_tree_tshirt_size == 'no_need' %} selected {% endif %}>I don't need</option>
+                                        
+                                        {% else %}
+                                            <option value="" disabled selected>Select T-Shirt Size</option>
+                                            <option value="small">Small</option>
+                                            <option value="medium">Medium</option>
+                                            <option value="large">Large</option>
+                                            <option value="xlarge">XLarge</option>
+                                            <option value="xxlarge">XXLarge</option>
+                                            <option value="no_need">I don't need</option>
+                                        {% endif %}
+                                    </select>
+                                    <label for="indian_tree_tshirt-size">Indian Tree T-Shirt Size</label>
+                               
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-field col s12 m4">
+                            <select id="indian_tree_shorts_size" name="indian_tree_shorts_size" required>
+                            {% if loggedUser %}
+                                <option value="" disabled selected>Select Shorts Size</option>
+                                <option value="small" {% if loggedUser.indian_tree_shorts_size == 'small' %} selected {% endif %}>Small</option>
+                                <option value="medium" {% if loggedUser.indian_tree_shorts_size == 'medium' %} selected {% endif %}>Medium</option>
+                                <option value="large" {% if loggedUser.indian_tree_shorts_size == 'large' %} selected {% endif %}>Large</option>
+                                <option value="xlarge" {% if loggedUser.indian_tree_shorts_size == 'xlarge' %} selected {% endif %}>XLarge</option>
+                                <option value="xxlarge" {% if loggedUser.indian_tree_shorts_size == 'xxlarge' %} selected {% endif %}>XXLarge</option>
+                                <option value="no_need" {% if loggedUser.indian_tree_shorts_size == 'no_need' %} selected {% endif %}>I don't need</option>
+                            
+                            {% elif draftData.indian_tree_shorts_size %}
+                                <option value="" disabled selected>Select Shorts Size</option>
+                                <option value="small" {% if draftData.indian_tree_shorts_size == 'small' %} selected {% endif %}>Small</option>
+                                <option value="medium" {% if draftData.indian_tree_shorts_size == 'medium' %} selected {% endif %}>Medium</option>
+                                <option value="large" {% if draftData.indian_tree_shorts_size == 'large' %} selected {% endif %}>Large</option>
+                                <option value="xlarge" {% if draftData.indian_tree_shorts_size == 'xlarge' %} selected {% endif %}>XLarge</option>
+                                <option value="xxlarge" {% if draftData.indian_tree_shorts_size == 'xxlarge' %} selected {% endif %}>XXLarge</option>
+                                <option value="no_need" {% if draftData.indian_tree_shorts_size == 'no_need' %} selected {% endif %}>I don't need</option>
+                            
+                            {% else %}
+                                <option value="" disabled selected>Select Shorts Size</option>
                                 <option value="small">Small</option>
                                 <option value="medium">Medium</option>
                                 <option value="large">Large</option>
                                 <option value="xlarge">XLarge</option>
                                 <option value="xxlarge">XXLarge</option>
                                 <option value="no_need">I don't need</option>
-                            </select>
-                            <label for="indian_tree_tshirt-size">Indian Tree T-Shirt Size</label>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="input-field col s12 m4">
-                            <select id="indian_tree_shorts-size" name="indian_tree_shorts-size" required>
-                                <option value="" disabled selected>Select Shorts-size</option>
-                                <option value="small">Small</option>
-                                <option value="medium">Medium</option>
-                                <option value="small">Large</option>
-                                <option value="medium">XLarge</option>
-                                <option value="small">XXLarge</option>
-                                <option value="medium">XXLarge</option>
-                                <option value="medium">I don't need</option>
+                            {% endif %}
                             </select>
                             <label for="Shorts-size">Indian Tree Shorts Size:</label>
                         </div>
                         <div class="input-field col s12 m4">
                             <select id="food_preference" name="food_preference" required>
-                                <option value="" disabled selected>Food-preference</option>
-                                <option value="non-vegetarian">Non-Vegetarian</option>
-                                <option value="vegetarian">Vegetarian</option>
-                                <option value="not-attending">I won't be there for Gala Dinner</option>
+                                {% if loggedUser %}
+                                    <option value="" disabled selected>Food-preference</option>
+                                    <option value="non-vegetarian" {% if loggedUser.food_preference == 'non-vegetarian' %} selected {% endif %}>Non-Vegetarian</option>
+                                    <option value="vegetarian" {% if loggedUser.food_preference == 'vegetarian' %} selected {% endif %}>Vegetarian</option>
+                                    <option value="not-attending" {% if loggedUser.food_preference == 'not-attending' %} selected {% endif %}>I won't be there for Gala Dinner</option>
+                                {% elif draftData.food_prefernce %}
+                                    <option value="" disabled selected>Food-preference</option>
+                                    <option value="non-vegetarian" {% if draftData.food_preference == 'non-vegetarian' %} selected {% endif %}>Non-Vegetarian</option>
+                                    <option value="vegetarian" {% if draftData.food_preference == 'vegetarian' %} selected {% endif %}>Vegetarian</option>
+                                    <option value="not-attending" {% if draftData.food_preference == 'not-attending' %} selected {% endif %}>I won't be there for Gala Dinner</option>
+                                
+                                {% else %}
+                                    <option value="" disabled selected>Food-preference</option>
+                                    <option value="non-vegetarian">Non-Vegetarian</option>
+                                    <option value="vegetarian">Vegetarian</option>
+                                    <option value="not-attending">I won't be there for Gala Dinner</option>
+                                {% endif %}
                             </select>
                             <label for="food-preference">Gala Dinner Food Preference:</label>
                         </div>
                         <div class="input-field col s12 m4">
                             <select id="stay_arrangement" name="stay_arrangement" required>
-                                <option value="" disabled selected>Stay Arrangemnet</option>
-                                <option value="yes">Yes</option>
-                                <option value="no">No</option>
+                                {% if loggedUser %}
+                                    <option value="" disabled>Select Stay Arrangement</option>
+                                    <option value="yes" {% if loggedUser.stay_arrangement == 'yes' %} selected {% endif %}>Yes</option>
+                                    <option value="no" {% if loggedUser.stay_arrangement == 'no' %} selected {% endif %}>No</option>
+                                {% elif draftData.stay_arrangement %}
+                                    <option value="" disabled>Select Stay Arrangement</option>
+                                    <option value="yes" {% if draftData.stay_arrangement == 'yes' %} selected {% endif %}>Yes</option>
+                                    <option value="no" {% if draftData.stay_arrangement == 'no' %} selected {% endif %}>No</option>
+                                
+                                {% else %}
+                                    <option value="" disabled selected>Select Arrangement</option>
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                {% endif %}
                             </select>
                             <label for="accommodation">Need place to stay?</label>
                         </div>
@@ -94,45 +181,124 @@
 
                     <div class="row">
                         <div class="input-field col s12 m4">
-                            <select id="first_event" name="first_event" required>
-                                <option value="" disabled selected>Select Partner</option>
-                                {% for participant in participants %}
-                                <option value="{{ participant.name }}">{{ participant.name }} ({{
-                                    participant.participant_id }})</option>
-                                {% endfor %}
-                                <option value="Not Registered">Not Registered</option>
+                            <select id="first_event_category" name="first_event_category" required>
+                                {% if loggedUser %}
+                                    <option value="75+" {% if loggedUser.first_event_category == '75+' %} selected {% endif %}>75+</option>
+                                    <option value="90+" {% if loggedUser.first_event_category == '90+' %} selected {% endif %}>90+</option>
+                                    <option value="105+" {% if loggedUser.first_event_category == '105+' %} selected {% endif %}>105+</option>
+                                    <option value="120+" {% if loggedUser.first_event_category == '120+' %} selected {% endif %}>120+</option>
+                                {% elif draftData.first_event_category %}
+                                    <option value="75+" {% if draftData.first_event_category == '75+' %} selected {% endif %}>75+</option>
+                                    <option value="90+" {% if draftData.first_event_category == '90+' %} selected {% endif %}>90+</option>
+                                    <option value="105+" {% if draftData.first_event_category == '105+' %} selected {% endif %}>105+</option>
+                                    <option value="120+" {% if draftData.first_event_category == '120+' %} selected {% endif %}>120+</option>
+                                
+                                {% else %}
+                                    <option value="" disabled selected>Select Category</option>
+                                    <option value="Open">Open</option>
+                                    <option value="90+">90+</option>
+                                    <option value="105+">105+</option>
+                                    <option value="120+">120+</option>
+                                {% endif %}
                             </select>
-                            <label for="first-event">Your First-Event Partner:</label>
+                            
+                            <label for="first_event_category">Your First-Event Category:</label>
                         </div>
                         <div class="input-field col s12 m4">
-                            <select id="second_event" name="second_event" required>
-                                <option value="" disabled selected>Select Partner</option>
+                            <select id="first_event" name="first_event">
+                                {% if loggedUser %}
+                                    {% if loggedUser.first_event_partner == "Not Registered" and loggedUser.first_event_id == "Not Registered" %}
+                                    <option value="Not Registered">Not Registered</option>
+                                {% else %}
+                                    <option value="{{ loggedUser.first_event_partner }}-{{ loggedUser.first_event_id }}">{{ loggedUser.first_event_partner }} ({{ loggedUser.first_event_id }}) </option>
+                                {% endif%}
                                 {% for participant in participants %}
-                                <option value="{{ participant.name }}">{{ participant.name }} ({{
-                                    participant.participant_id }})</option>
-                                {% endfor %}
-                                <option value="Not Registered">Not Registered</option>
+                                        <option value="{{ participant.name }}-{{ participant.participant_id }}">{{ participant.name }} ({{ participant.participant_id }})</option>
+                                    {% endfor %}
+                                {% elif draftData.first_event_partner %}
+                                    <option value="{{ draftData.first_event_partner }}-{{ draftData.first_event_id }}">{{ draftData.first_event_partner }} ({{ draftData.first_event_id }})</option>
+                                
+                                {% else %}
+                                    <option value="" disabled selected>Select Partner</option>
+                                    {% for participant in participants %}
+                                        <option value="{{ participant.name }}-{{ participant.participant_id }}">{{ participant.name }} ({{ participant.participant_id }})</option>
+                                    {% endfor %}
+                                    <option value="Not Registered">Not Registered</option>
+                                {% endif %}
                             </select>
-                            <label for="Second-event">Your Second-Event Partner:</label>
+                            
+                            <label for="First_event">Your First-Event Partner:</label>
                         </div>
+                        <div class="input-field col s12 m4">
+                            <select id="second_event_category" name="second_event_category" required>
+                                {% if loggedUser %}
+                                <option value="75+" {% if loggedUser.second_event_category == '75+' %} selected {% endif %}>75+</option>
+                                <option value="90+" {% if loggedUser.second_event_category == '90+' %} selected {% endif %}>90+</option>
+                                <option value="105+" {% if loggedUser.second_event_category == '105+' %} selected {% endif %}>105+</option>
+                                <option value="120+" {% if loggedUser.second_event_category == '120+' %} selected {% endif %}>120+</option>
+                                {% elif draftData.second_event_category %}
+                                <option value="75+" {% if draftData.second_event_category == '75+' %} selected {% endif %}>75+</option>
+                                <option value="90+" {% if draftData.second_event_category == '90+' %} selected {% endif %}>90+</option>
+                                <option value="105+" {% if draftData.second_event_category == '105+' %} selected {% endif %}>105+</option>
+                                <option value="120+" {% if draftData.second_event_category == '120+' %} selected {% endif %}>120+</option>
+                                
+                                {% else %}
+                                <option value="" disabled selected>Select Category</option>
+                                <option value="Open">Open</option>
+                                <option value="90+">90+</option>
+                                <option value="105+">105+</option>
+                                <option value="120+">120+</option>
+                                {% endif %}  </select>
+                            <label for="Second-event-category">Second-Event Category:</label>
+                        </div>
+                       
+                        
                     </div>
-                    {% endfor %}
-                    <div class="row">
-                        <div class="col s12 m4">
-                            <button class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
+                    <div class="row last_div">
+                        <div class="input-field col s12 m4">
+                            <select id="second_event" name="second_event">
+                                {% if loggedUser%}
+                                    {% if loggedUser.first_event_partner == "Not Registered" and loggedUser.first_event_id == "Not Registered" %}
+                                        <option value="Not Registered">Not Registered</option>
+                                    {% else %}
+                                        <option value="{{ loggedUser.second_event_partner }}-{{ loggedUser.second_event_id }}">{{ loggedUser.second_event_partner }} ({{ loggedUser.second_event_id }}) </option>
+                                    {% endif %}    
+                                    {% for participant in participants %}
+                                        <option value="{{ participant.name }}-{{ participant.participant_id }}">{{ participant.name }} ({{ participant.participant_id }})</option>
+                                    {% endfor %}
+                                {% elif draftData.second_event_partner %}
+                                    <option value="{{ draftData.second_event_partner }}-{{ draftData.second_event_id }}">{{ draftData.second_event_partner }} ({{ draftData.second_event_id }}) </option>
+                                {% else %}
+                                    <option value="" disabled selected>Select Partner</option>
+                                    {% for participant in participants %}
+                                        <option value="{{ participant.name }}-{{ participant.participant_id }}">{{ participant.name }} ({{ participant.participant_id }})</option>
+                                    {% endfor %}
+                                    <option value="Not Registered">Not Registered</option>
+                                {% endif %}
+                            </select>
+                            <label for="second_event">Your second-Event Partner:</label>
                         </div>
-                        <div class="col s12 m4">
-                            <button class="btn waves-effect waves-light">
-                                Back
-                            </button>
+                        
+                        <div class="buttonss">
+
+                            <div class="col s12 m4 submit" style="display: flex; justify-content: center;">
+                                <div id="backButton" class="btn waves-effect waves-light" href="home">Back</div>
+                            </div>
+                            <div class="col s12 m4 back" style="display: flex; justify-content: center;">
+                                <button class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
+                            </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>
         </form>
     </div>
+    <script src="../static/form1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    {% if participant %}
+    {% if participant.is_authenticated %}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('name').value = '{{ participant.name }}';
@@ -140,6 +306,108 @@
     </script>
     {% endif %}
 
+    {% if messages %}
+	{% for message in messages %}
+	<div class="alert alert-{{ messages.tags }}" role="alert">
+		<script>
+			setTimeout(function () {
+				alert("{{ message }}");
+			}, 500);
+		</script>
+	</div>
+	{% endfor %}
+	{% endif %}
+    
+    <script>
+        document.getElementById("backButton").onclick = function() {
+        window.location.href = "home";
+    }
+    function saveDraft() {
+        var draftData = {
+            
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            date_of_birth: document.getElementById('date_of_birth').value,
+            whatsapp_number: document.getElementById('whatsapp_number').value,
+            city: document.getElementById('city').value,
+            indian_tree_tshirt_size: document.getElementById('indian_tree_tshirt_size').value,
+            indian_tree_shorts_size: document.getElementById('indian_tree_shorts_size').value,
+            food_preference: document.getElementById('food_preference').value,
+            stay_arrangement: document.getElementById('stay_arrangement').value,
+            first_event_category: document.getElementById('first_event_category').value,
+            first_event: document.getElementById('first_event').value,
+            second_event_category: document.getElementById('second_event_category').value,
+            second_event: document.getElementById('second_event').value
+           
+        };
+        localStorage.setItem('draftData', JSON.stringify(draftData));
+        alert("Your Data is Saved Now...");
+    }
+
+
+    function loadDraft() {
+        var draftData = localStorage.getItem('draftData');
+        if (draftData) {
+            draftData = JSON.parse(draftData);
+            document.getElementById('name').value = draftData.name;
+            document.getElementById('email').value = draftData.email;
+            document.getElementById('date_of_birth').value = draftData.date_of_birth;
+            document.getElementById('whatsapp_number').value = draftData.whatsapp_number;
+            document.getElementById('city').value = draftData.city;
+            
+            var tshirtSizeSelect = document.getElementById('indian_tree_tshirt_size');
+            if (tshirtSizeSelect) {
+                tshirtSizeSelect.value = draftData.indian_tree_tshirt_size;
+            }
+            
+            var shortsSizeSelect = document.getElementById('indian_tree_shorts_size');
+            if (shortsSizeSelect) {
+                shortsSizeSelect.value = draftData.indian_tree_shorts_size;
+            }
+            
+            var foodPreferenceSelect = document.getElementById('food_preference');
+            if (foodPreferenceSelect) {
+                foodPreferenceSelect.value = draftData.food_preference;
+            }
+            
+            var stayArrangementSelect = document.getElementById('stay_arrangement');
+            if (stayArrangementSelect) {
+                stayArrangementSelect.value = draftData.stay_arrangement;
+            }
+            
+            var firstEventCategorySelect = document.getElementById('first_event_category');
+            if (firstEventCategorySelect) {
+                firstEventCategorySelect.value = draftData.first_event_category;
+            }
+            
+            var firstEventSelect = document.getElementById('first_event');
+            if (firstEventSelect) {
+                firstEventSelect.value = draftData.first_event;
+            }
+            
+            var secondEventCategorySelect = document.getElementById('second_event_category');
+            if (secondEventCategorySelect) {
+                secondEventCategorySelect.value = draftData.second_event_category;
+            }
+            
+            var secondEventSelect = document.getElementById('second_event');
+            if (secondEventSelect) {
+                secondEventSelect.value = draftData.second_event;
+            }
+            
+            M.updateTextFields();
+            M.FormSelect.init(document.querySelectorAll('select')); 
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        M.FormSelect.init(document.querySelectorAll('select'));
+    });
+
+    function clearDraft() {
+        localStorage.removeItem('draftData');
+    }
+    </script>
 </body>
 
 </html>

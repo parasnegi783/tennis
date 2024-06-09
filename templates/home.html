@@ -3,94 +3,170 @@
 
 <head>
 	<title>Tennis Contest</title>
-	<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
-	<link rel="stylesheet" href="../static/csss/home.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 	<link rel="icon" type="image/x-icon" href="../static/image/download.png">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<link rel="stylesheet" href="../static/csss/home.css">
+
+	<!-- Compiled and minified JavaScript -->
 </head>
 
 <body style="height: 100%;">
-	<header class="navbar">
-		<nav>
-			<div id="logo">Tennis Contest</div>
-			<div class="btn">
-				<a href="login">
-					<button>Login</button>
-				</a>
-				<a href="register">
-					<button>Register</button>
-				</a>
-			</div>
-		</nav>
-	</header>
+	<nav class="white" role="navigation">
+		<div class="nav-wrapper container">
+			<a id="logo-container" href="#" class="brand-logo" style="color: #FDD835;">Tennis Doubles</a>
+			<ul class="right">
+				{% if request.user.is_authenticated %}
+				<li><a class="waves-effect waves-light btn yellow darken-1 bold" href="{% url 'logout' %}">Logout</a>
+				</li>
+				<li><a class="waves-effect waves-light btn yellow darken-1 bold" href="{% url 'detail' %}">Details</a>
+				</li>
+				{% else %}
+				<li><a class="waves-effect waves-light btn yellow darken-1 bold" href="{% url 'login' %}">Login</a></li>
+				<li><a class="waves-effect waves-light btn yellow darken-1 bold"
+						href="{% url 'register' %}">Register</a></li>
+				{% endif %}
+			</ul>
+
+			<ul id="nav-mobile" class="sidenav">
+				{% if request.user.is_authenticated %}
+				<li><a href="{% url 'logout' %}">Logout</a></li>
+				<li><a href="{% url 'detail' %}">Details</a></li>
+				{% else %}
+				<li><a href="{% url 'login' %}">Login</a></li>
+				<li><a href="{% url 'register' %}">Register</a></li>
+				{% endif %}
+			</ul>
+			<a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+		</div>
+	</nav>
+
+
 	<!-- https://as2.ftcdn.net/v2/jpg/02/83/17/77/1000_F_283177782_cnb9aiOrpF0l73ICfKJlH3t3mXOXS2mv.jpg -->
-	<div class="slider-frame">
-		<div class="slide-images">
-			<div class="img-container" style="height: 780px;">
+	<div class="slider">
+		<ul class="slides">
+			<li>
+				<img src="../static/image/murray-1568x1090.jpg">
+
+			</li>
+			<li>
 				<img
 					src="https://www.verywellfit.com/thmb/qycrFB0mInWWvE56WnxjHykBkEI=/5120x3413/filters:fill(FFDB5D,1)/overhead-view-of-young-male-tennis-player-playing-tennis--serving-the-ball-on-sunny-blue-tennis-court-750415275-5af9b096ff1b780020dd927d.jpg">
-			</div>
-			<div class="img-container" style="height: 550px;">
-				<img src="../static/image/murray-1568x1090.jpg">
-			</div>
-			<div class="img-container" style="height: 680px;">
+			</li>
+			<li>
 				<img
 					src="https://tenniscamper.com/wp-content/uploads/tennis-camp_back-court-return_1080x524-1024x497.jpg">
+			</li>
+		</ul>
+	</div>
+
+	<div class="section yellow darken-1">
+		<div class="container row">
+			<div class="col s12">
+				<h2 class="center-align" style="font-size: 4rem;">Discover Our Tournaments</h2>
 			</div>
 		</div>
 	</div>
-	
-	<div class="midtext">
-		<h1>Discover Our Tournaments</h1>
+	<div class="card-container">
+		{% for card in cards %}
+		<div class="card">
+			<div class="card-content">
+				<h5 id="card-heading">{{ card.heading }}</h5>
+				<ul>
+					{% if card.point1 %}
+					<li>{{ card.point1 }}</li>
+					{% endif %}
+					{% if card.point2 %}
+					<li>{{ card.point2 }}</li>
+					{% endif %}
+					{% if card.point3 %}
+					<li>{{ card.point3 }}</li>
+					{% endif %}
+					{% if card.point4 %}
+					<li>{{ card.point4 }}</li>
+					{% endif %}
+					{% if card.point5 %}
+					<li>{{ card.point5 }}</li>
+					{% endif %}
+				</ul>
+			</div>
+		</div>
+		{% endfor %}
 	</div>
 
-	<div class="cards">
-        <div class="wrapper">
-            {% for card in cards %}
-            <div class="slider">
-                <div class="card card1">
-                    <div class="container">
-                        <h1>{{ card.heading }}</h1>
-                    </div>
-                    <div class="details">
-                        <ul>
-                            {% if card.point1 %}
-                            <li>{{ card.point1 }}</li>
-                            {% endif %}
-                            {% if card.point2 %}
-                            <li>{{ card.point2 }}</li>
-                            {% endif %}
-                            {% if card.point3 %}
-                            <li>{{ card.point3 }}</li>
-                            {% endif %}
-                            {% if card.point4 %}
-                            <li>{{ card.point4 }}</li>
-                            {% endif %}
-                            {% if card.point5 %}
-                            <li>{{ card.point5 }}</li>
-                            {% endif %}
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-
-	<script src="../static/home.js"></script>
 	{% if messages %}
-		{% for message in messages %}
-			<div class="alert alert-{{ messages.tags }}" role="alert">
-				<script>
-					setTimeout(function() {
-						alert("{{ message }}");
-					}, 500);
-				</script>
-			</div>
-		{% endfor %}
+	{% for message in messages %}
+	<div class="alert alert-{{ messages.tags }}" role="alert">
+		<script>
+			setTimeout(function () {
+				alert("{{ message }}");
+			}, 500);
+		</script>
+	</div>
+	{% endfor %}
 	{% endif %}
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			var elems = document.querySelectorAll('.slider');
+			var instances = M.Slider.init(elems, {
+				indicators: false,
+				height: 400, // You can set a default height
+				duration: 300,
+				interval: 3000
+			});
+
+			// Check if images are loaded
+			instances[0].$slides.each(function () {
+				var img = $(this).find('img').first();
+				if (!img.complete || img.naturalWidth === 0) {
+					console.error('Image not loaded:', img.attr('src'));
+				}
+			});
+		});
+
+
+
+
+	</script>
 
 </body>
 
 </html>
+
+<!-- <div class="cards">
+		<div class="wrapper">
+			{% for card in cards %}
+			<div class="slider">
+				<div class="card card1">
+					<div class="container">
+						<h1>{{ card.heading }}</h1>
+					</div>
+					<div class="details">
+						<ul>
+							{% if card.point1 %}
+							<li>{{ card.point1 }}</li>
+							{% endif %}
+							{% if card.point2 %}
+							<li>{{ card.point2 }}</li>
+							{% endif %}
+							{% if card.point3 %}
+							<li>{{ card.point3 }}</li>
+							{% endif %}
+							{% if card.point4 %}
+							<li>{{ card.point4 }}</li>
+							{% endif %}
+							{% if card.point5 %}
+							<li>{{ card.point5 }}</li>
+							{% endif %}
+						</ul>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div> -->

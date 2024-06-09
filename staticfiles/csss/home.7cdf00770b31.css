@@ -1,0 +1,258 @@
+.brand-logo,
+.waves-effect.waves-light.btn {
+    font-weight: 600;
+}
+
+.brand-logo {
+    transform: scale(1.2);
+    transition: transform 0.3s ease;
+}
+
+/* Additional CSS */
+.section.yellow.darken-1 {
+    padding: 0px 0;
+    /* Reduced vertical padding */
+}
+
+.section .container h2 {
+    font-size: 3rem;
+    /* Smaller font size */
+}
+
+
+.card-container {
+    display: flex;
+    overflow-x: auto;
+    padding: 20px;
+    justify-content: space-between; 
+    box-sizing: border-box
+    /*xxxxxx*/
+}
+
+.card {
+    width: 100%;
+    /* Full width */
+    height: 50vh;
+    /* Half of the viewport height */
+    margin-bottom: 20px;
+    /* Space between cards */
+    /* Your existing card styles */
+    flex-wrap: wrap; /* Ensure cards wrap to new line */
+    flex: 0 0 calc(50% - 20px); /* Two cards per row with spacing */
+    margin-bottom: 20px; 
+}
+
+.card {
+    flex: 0 0 auto;
+    width: 390px;
+    height: 420px;
+    margin-right: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+    border: 2px solid #ccc;
+    /* Simple border */
+    background-color: #fff;
+    box-shadow: 8px 8px 15px #aaa,
+        /* Outer shadow */
+        -8px -8px 15px #fff;
+    /* Inner shadow */
+    border-radius: 10px;
+    /* Rounded corners for the card */
+}
+
+/* Neumorphism effect for hover state */
+.card:hover {
+    box-shadow: 4px 4px 10px #aaa,
+        /* Outer shadow */
+        -4px -4px 10px #fff;
+    /* Inner shadow */
+}
+
+.card-content h5 {
+    margin-bottom: 20px;
+    /* Add space below the heading */
+}
+
+
+
+.card-content {
+    padding: 20px;
+    word-wrap: break-word; 
+    overflow-wrap: break-word;
+}
+
+.card-content ul {
+    list-style: none;
+    /* Remove default list style */
+    padding-left: 20px;
+    /* Remove default padding */
+}
+
+.card-content li::before {
+    content: '•';
+    /* Custom bullet point */
+    color: #FDD835;
+    /* Bullet point color */
+    font-weight:bolder;
+    /* Make bullet point bold */
+    display: inline-block;
+    /* Needed to add space between bullet and text */
+    width: 1.2em;
+    /* Space between bullet and text */
+    margin-left: -1em;
+    /* Align with content outside */
+}
+
+.card-content ul {
+    list-style: none;
+    padding-left: 0;
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+.card-content li::before {
+    content: '•';
+    /* Custom bullet point */
+    color: #FDD835;
+    /* Bullet point color */
+    font-weight: bold;
+    /* Make bullet point bold */
+    display: inline-block;
+    /* Needed to add space between bullet and text */
+    width: 1em;
+    /* Space between bullet and text */
+    margin-left: -1em;
+    /* Align with content outside */
+}
+
+#card-heading {
+    background-color: #FDD835;
+    /* Yellow background */
+    color: white;
+    /* White text */
+    padding: 10px;
+    /* Add some padding */
+    margin: 0;
+    /* Remove default margin */
+    border-radius: 5px;
+    /* Optional: rounded corners */
+}
+
+
+
+
+
+@media only screen and (max-width: 992px) {
+    .brand-logo {
+        transform: scale(1);
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .brand-logo {
+        transform: scale(0.8);
+    }
+}
+
+.section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+    /* Adjust padding as needed */
+}
+
+.container h2 {
+    font-size: 3rem;
+    /* Adjust font size as needed */
+    font-weight: bold;
+    /* Make the text bold */
+    color: #fff;
+    /* Set text color to white */
+}
+
+/* Responsive adjustments */
+@media only screen and (max-width: 600px) {
+    .container h2 {
+        font-size: 1.5rem;
+        /* Smaller font size for mobile devices */
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .brand-logo {
+        position: absolute;
+        left: 90px;
+
+    }
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .slider {
+        min-width: calc(50% - .5rem);
+    }
+}
+
+@media (max-width: 600px) {
+    .slider {
+        min-width: calc(100% - .5rem);
+    }
+
+    .container h1 {
+        font-size: 20px;
+    }
+
+    ul {
+        font-size: 14px;
+        padding-left: 10px;
+    }
+}
+@media (max-width: 600px) {
+    .card-container {
+        display: block;
+        /* Stack cards vertically */
+        overflow-y: auto;
+        /* Enable vertical scrolling */
+        height: calc(100vh - 120px);
+        /* Adjust height for scrolling */
+        padding: 20px;
+        /* Add padding for better spacing */
+    }
+
+    .card {
+        flex: 0 0 100%;
+        /* Full width for stacked cards */
+        margin-bottom: 10px;
+        /* Reduce margin between cards */
+    }
+}
+
+@media (min-width: 601px) {
+    .card-container {
+        display: flex;
+        /* Ensure horizontal scrolling */
+        overflow-x: auto;
+        /* Enable horizontal scrolling */
+        overflow-y: hidden;
+        /* Hide vertical scrollbar */
+        white-space: nowrap;
+        /* Prevent wrapping of cards */
+        padding: 20px 0;
+        /* Add padding for better spacing */
+    }
+
+    .card {
+        flex: 0 0 auto;
+        /* Allow cards to have variable width */
+        margin-right: 20px;
+        /* Space between cards */
+        white-space: normal;
+        /* Allow text wrapping inside cards */
+    }
+}

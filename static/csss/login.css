@@ -1,6 +1,7 @@
-/* ===== Google Font Import - Poppins ===== */
+/* Google Font Import - Poppins */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap');
 
+/* Reset and font */
 * {
     margin: 0;
     padding: 0;
@@ -8,29 +9,45 @@
     font-family: 'Poppins', sans-serif;
 }
 
-body{
+/* Neumorphic background */
+body {
     display: flex;
-    text-align: center;
     justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #e0e5ec; /* Neumorphic background */
+    text-align: center;
 }
+
+/* Container with neumorphic shadow */
 .container {
     position: relative;
     max-width: 600px;
     width: 90%;
     margin: 50px auto;
     padding: 0 15px;
-    overflow: hidden
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 20px 20px 60px #bebebe,
+                -20px -20px 60px #ffffff;
 }
 
+/* Card panel with inset shadow for neumorphic effect */
 .card-panel {
     padding: 30px;
     position: relative;
+    background-color: #e0e5ec; /* Neumorphic background */
+    border-radius: 20px;
+    box-shadow: inset 20px 20px 60px #bebebe,
+                inset -20px -20px 60px #ffffff;
 }
 
+/* Center text alignment */
 .center-align {
     text-align: center;
 }
 
+/* Input field styles with neumorphic inset shadow */
 .input-field input[type="number"],
 .input-field input[type="text"] {
     outline: none;
@@ -38,19 +55,22 @@ body{
     font-weight: 400;
     color: #333;
     border-radius: 5px;
-    border: 1px solid #aaa;
-    padding: 10px 15px 10px 30px;
-    height: 42px;
-    width: calc(100% - 30px); 
+    border: none; /* Remove border */
+    background-color: #e0e5ec; /* Neumorphic background */
     padding: 10px 15px;
     margin-bottom: 20px;
+    box-shadow: inset 5px 5px 10px #bebebe,
+                inset -5px -5px 10px #ffffff;
 }
 
+/* Focus effect for input fields */
 .input-field input[type="number"]:focus,
 .input-field input[type="text"]:focus {
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.13);
+    box-shadow: none;
+    border-bottom: 2px solid #e0e5ec;
 }
 
+/* Label styles */
 .input-field label {
     font-size: 14px;
     left: 15px;
@@ -58,12 +78,18 @@ body{
     color: #2e2e2e;
 }
 
+/* Button styles with neumorphic shadow */
 .btn {
-    background-color: #4070f4;
-    color: #fff;
+    background-color: #e0e5ec; /* Neumorphic background */
+    color: #333;
     border-radius: 5px;
+    box-shadow: 5px 5px 10px #bebebe,
+                -5px -5px 10px #ffffff;
+    font-weight: bold;
 }
 
+/* Button hover effect */
 .btn:hover {
-    background-color: #0056b3;
+    background-color: #4070f4; /* Original button color */
+    box-shadow: none;
 }

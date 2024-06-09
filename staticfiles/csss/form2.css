@@ -156,6 +156,11 @@ form.secActive .form.first {
     cursor: pointer;
 }
 
+.submit{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 @media (max-width: 750px) {
     .container form {
         overflow-y: scroll;

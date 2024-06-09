@@ -1,4 +1,4 @@
-/* ===== Google Font Import - Poppins ===== */
+
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
 *{
     margin: 0;
@@ -11,7 +11,7 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #E3F2FD;
+    background-color: #E3F2FD;
 }
 .container{
     position: relative;
@@ -37,7 +37,7 @@ body{
     height: 3px;
     width: 27px;
     border-radius: 8px;
-    background-color: #4070f4;
+    background-color: #E3F2FD;
 }
 .container form{
     display: flex;
@@ -136,18 +136,32 @@ form .fields .input-field{
     }
 }
 
+#smallButton {
+    position: absolute;
+    top: 10%;
+    right: 30%;
+  }
 
-.main{
+  @media (max-width:768px){
+    #smallButton {
+        position: absolute;
+        top: 4%;
+        right: 10%;
+    } 
+  }
+  
+  
+  .main{
     display: flex;
     width: 100%;
     justify-content: space-between;
-}
-
- .main .my button,a{
-    color: #fff;
-} 
-
-.button-like {
+    }
+    
+    .main .my button,a{
+        color: #fff;
+        } 
+        
+        .button-like {
     display: inline-block;
     padding: 10px 20px;
     background-color: #4070f4; 
@@ -156,66 +170,99 @@ form .fields .input-field{
     border: none;
     border-radius: 5px;
     cursor: pointer;
-}
-
+    }
+    
 .button-like:hover {
     background-color: #0056b3; 
+    }
+    
+    
+    @media (max-width: 750px) {
+        .container form {
+            overflow-y: scroll;
+            }
+            .container form::-webkit-scrollbar {
+                display: none;
+                }
+                form .fields .input-field {
+                    width: 100%; 
+                    }
 }
 
 
-@media (max-width: 750px) {
-    .container form {
-        overflow-y: scroll;
-    }
-    .container form::-webkit-scrollbar {
-        display: none;
-    }
-    form .fields .input-field {
-        width: 100%; /* Change width for smaller screens */
-    }
-}
-
-/* Further adjustments for even smaller screens */
 @media (max-width: 550px) {
     .container {
-        padding: 15px; /* Adjust padding for smaller screens */
-    }
-    form .fields .input-field {
-        width: 100%; /* Adjust width for smaller screens */
-    }
-    .main {
-        flex-direction: column; /* Stack buttons vertically on smaller screens */
-    }
-    .main .my button,
-    a {
-        width: 100%; /* Make buttons full width on smaller screens */
-        max-width: none; /* Remove max-width */
-    }
-}
-
-@media (max-width: 750px) {
-    /* Other media query adjustments */
-
-    .input-field {
-        width: 100%; /* Adjust width for smaller screens */
-    }
-
-    .input-field:nth-child(7),
+        padding: 15px; 
+        }
+        form .fields .input-field {
+            width: 100%; 
+            }
+            .main {
+                flex-direction: column; 
+                }
+                .main .my button,
+                a {
+                    width: 100%; 
+                    max-width: none; 
+                    }
+                    }
+                    
+                    @media (max-width: 750px) {
+                        .input-field {
+                            width: 100%; 
+                            }
+                            
+                            .input-field:nth-child(7),
+                            .input-field:nth-child(8) {
+                                
+                                display: flex;
+                                flex-direction: column;
+                                min-width: unset;
+                                min-height: unset;
+                                }
+                                }
+                                
+                                @media (max-width: 550px) {
+                                    
+                                    
+                                    .input-field:nth-child(7),
     .input-field:nth-child(8) {
-        /* Style adjustments for the last two input fields */
-        display: flex;
-        flex-direction: column;
-        min-width: unset;
-        min-height: unset;
-    }
+        
+        width: 100%; 
+        }
 }
 
-@media (max-width: 550px) {
-    /* Other media query adjustments */
-
-    .input-field:nth-child(7),
-    .input-field:nth-child(8) {
-        /* Further adjustments for even smaller screens */
-        width: 100%; /* Make the width 100% */
-    }
+col s12 m4 submit{
+    display: flex;
+    justify-content: center;
 }
+/*     
+    @media (max-width: 768px) {
+        .buttonss {
+            display: flex;
+            flex-wrap: wrap; 
+            justify-content: space-between; 
+        }
+        .buttonss .col.s12.m4 {
+            flex: 0 0 48%; 
+            max-width: 48%; 
+            box-sizing: border-box; 
+            padding: 0 10px; 
+        }
+        .submit, .back {
+            max-width: none; 
+            background-color: #2e2e2e; 
+        }
+    } */
+                
+    @media (max-width:768px){
+       .buttonss{    
+            position: absolute;
+            bottom: 1px;
+            display: flex;
+            flex-direction: row;
+        } 
+    }
+                    
+                    
+                    
