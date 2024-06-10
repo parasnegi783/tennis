@@ -20,7 +20,7 @@
         <div class="card-panel white">
             <h5 class="center-align">Login</h5>
             <div class="row">
-                <form class="col s12" action="{% url 'logged_user' %}" method="post" >  
+                <form class="col s12" action="{% url 'logged_user' %}" method="post">
                     {% csrf_token %}
                     <div class="input-field">
                         <input id="whatsapp_number" type="number" name="whatsapp_number" class="validate" required>
@@ -48,9 +48,23 @@
     <!-- Custom JavaScript -->
     <script src="scripts.js"></script>
     <script>
-        document.getElementById("backButton").onclick = function() {
-        window.location.href = "home";
-    }
+        document.getElementById("backButton").onclick = function () {
+            window.location.href = "home";
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('.datepicker');
+            var instances = M.Datepicker.init(elems, {
+                format: 'yyyy-mm-dd',
+                yearRange: [1800, new Date().getFullYear()], // Set the year range from 1800 to the current year
+                defaultDate: new Date(), // Set the default date to today
+                setDefaultDate: true, // Display the default date in the datepicker input field
+                i18n: {
+                    done: 'Select'
+                }
+            });
+        });
+
     </script>
 </body>
 

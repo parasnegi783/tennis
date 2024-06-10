@@ -1,10 +1,12 @@
 
+
+
 document.addEventListener('DOMContentLoaded', function () {
     var elems = document.querySelectorAll('.datepicker');
     var instances = M.Datepicker.init(elems, {
         format: 'yyyy-mm-dd',
         yearRange: [1800, 2024], // Set the year range from 1800 to 2024
-        defaultDate: new Date(2000, 0, 1),
+        defaultDate: new Date(),
         setDefaultDate: true,
         i18n: {
             done: 'Select'
