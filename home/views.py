@@ -21,8 +21,8 @@ def calculate_age(date_of_birth):
 
 
 def check_age_requirements(age, partner_age, category):
-    if category == '75+':
-        required_age = 75
+    if category == 'Open':
+        return True
     elif category == '90+':
         required_age = 90
     elif category == '105+':
@@ -30,14 +30,16 @@ def check_age_requirements(age, partner_age, category):
     elif category == '120+':
         required_age = 120
     else:
-        required_age = None
+        return False
 
-    if required_age is not None and age > 15 and partner_age > 15:
-        calculated_age=age + partner_age
-        print("calculated age  is",calculated_age)
+    if age > 15 and partner_age > 15:
+        calculated_age = age + partner_age
+        print("Calculated age is", calculated_age)
         if calculated_age >= required_age:
             return True
+    
     return False
+
 
 
 
@@ -74,6 +76,7 @@ def logoutUser(request):
 
 def logged_user(request):
     if request.method == 'POST':
+        print("hello")
         username = request.POST.get('whatsapp_number')
         password = request.POST.get('date_of_birth')
         user = authenticate(request, username=username, password=password)
@@ -129,6 +132,10 @@ def save_participant(request):
         stay_arrangement = request.POST.get('stay_arrangement')
         first_event_name = request.POST.get('first_event')
         
+        
+            
+
+
         if first_event_name != "Not Registered":
             try:
                 x, _, y = first_event_name.partition('-')
@@ -160,10 +167,16 @@ def save_participant(request):
 
         first_event_category = request.POST.get('first_event_category')
         second_event_category = request.POST.get('second_event_category')
-
+        if first_event_category != second_event_category:
+            messages.error(request, "Both participants must choose the same category for the event.")
+            return redirect('register')
         if first_event_name != 'Not Registered':
             try:
                 first_event_partner_detail = Participant.objects.get(name=first_event_name, participant_id=first_event_id)
+                category1=first_event_partner_detail.first_event_category
+                if category1!=first_event_category:
+                    messages.error(request, "Participant's category does not match the category of the first event partner.")
+                    return redirect('detail')
                 first_event_partner_age = calculate_age(first_event_partner_detail.date_of_birth)
                 print(f"First event partner date of birth: {first_event_partner_detail.date_of_birth}, First event partner age: {first_event_partner_age}")
                 if not check_age_requirements(user_age, first_event_partner_age, first_event_category):
@@ -178,6 +191,10 @@ def save_participant(request):
         if second_event_name != 'Not Registered':
             try:
                 second_event_partner_detail = Participant.objects.get(name=second_event_name, participant_id=second_event_id)
+                category1=second_event_partner_detail.second_event_category
+                if category1!=second_event_category:
+                    messages.error(request, "Participant's category does not match the category of the Second event partner.")
+                    return redirect('detail')
                 second_event_partner_age = calculate_age(second_event_partner_detail.date_of_birth)
                 print(f"Second event partner date of birth: {second_event_partner_detail.date_of_birth}, Second event partner age: {second_event_partner_age}")
                 if not check_age_requirements(user_age, second_event_partner_age, second_event_category):
@@ -287,16 +304,27 @@ def update_save_participant(request):
         first_event_category = request.POST.get('first_event_category')
         second_event_category = request.POST.get('second_event_category')
 
-        # Calculate user's age
+        first_event_category = request.POST.get('first_event_category')
+        second_event_category = request.POST.get('second_event_category')
+
+        # Check if the participant's category matches the category of both event partners
+        if (loggedUser.first_event_partner != 'Not Registered' and 
+            loggedUser.first_event_category != first_event_category):
+            messages.error(request, "Participant's category does not match the category of the first event partner.")
+            return redirect('detail')
+        
+        if (loggedUser.second_event_partner != 'Not Registered' and 
+            loggedUser.second_event_category != second_event_category):
+            messages.error(request, "Participant's category does not match the category of the second event partner.")
+            return redirect('detail')
+        
         user_age = calculate_age(date_of_birth)
         print("First event name:", first_event_name)
         print("Second event name:", second_event_name)
 
-        # Initialize first_event_id and second_event_id
         first_event_id = None
         second_event_id = None
 
-        # Check if events are not registered
         if first_event_name == "Not Registered" or first_event_name == 'Not Registered-Not Registered':
             first_event_name = "Not Registered"
             first_event_id = "Not Registered"
@@ -304,7 +332,6 @@ def update_save_participant(request):
             second_event_id = "Not Registered"
             second_event_name = "Not Registered"
 
-        # Check age requirements for first event partner
         if first_event_name != 'Not Registered' and first_event_name != 'Not Registered-Not Registered':
             first_event_partner_detail = get_object_or_404(Participant, name=first_event_name, participant_id=loggedUser.first_event_id)
             first_event_partner_age = calculate_age(first_event_partner_detail.date_of_birth)
@@ -312,10 +339,8 @@ def update_save_participant(request):
                 messages.error(request, "Your and First Event Partner's age do not meet the requirements.")
                 return redirect('detail')
 
-            # Update first_event_id if partner details are found
             first_event_id = first_event_partner_detail.participant_id
 
-        # Check age requirements for second event partner
         if second_event_name != 'Not Registered' and second_event_name != 'Not Registered-Not Registered':
             try:
                 second_event_partner_detail = Participant.objects.get(name=second_event_name, participant_id=loggedUser.second_event_id)
@@ -327,7 +352,6 @@ def update_save_participant(request):
                 messages.error(request, "Your and Second Event Partner's age do not meet the requirements.")
                 return redirect('detail')
 
-            # Update second_event_id if partner details are found
             second_event_id = second_event_partner_detail.participant_id
 
         loggedUser.name = name
@@ -346,19 +370,15 @@ def update_save_participant(request):
         loggedUser.second_event_id = second_event_id
 
         try:
-            # Save the updated participant instance
             loggedUser.save()
 
-            # Update event partners
             uuupdate_event_partners(loggedUser)
 
             messages.success(request, 'Participant information updated successfully.')
             return redirect('detail')
         except Exception as e:
-            # Handle any errors that occur during saving
             print(e)
             messages.error(request, 'Failed to update participant information.')
             return redirect('detail')
     else:
-        # If the request method is not POST, return a HttpResponseNotAllowed
         return HttpResponseNotAllowed(['POST'])

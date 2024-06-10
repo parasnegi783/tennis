@@ -184,12 +184,12 @@
                         <div class="input-field col s12 m4">
                             <select id="first_event_category" name="first_event_category" required>
                                 {% if loggedUser %}
-                                    <option value="75+" {% if loggedUser.first_event_category == '75+' %} selected {% endif %}>75+</option>
+                                    <option value="Open" {% if loggedUser.first_event_category == 'Open' %} selected {% endif %}>Open</option>
                                     <option value="90+" {% if loggedUser.first_event_category == '90+' %} selected {% endif %}>90+</option>
                                     <option value="105+" {% if loggedUser.first_event_category == '105+' %} selected {% endif %}>105+</option>
                                     <option value="120+" {% if loggedUser.first_event_category == '120+' %} selected {% endif %}>120+</option>
                                 {% elif draftData.first_event_category %}
-                                    <option value="75+" {% if draftData.first_event_category == '75+' %} selected {% endif %}>75+</option>
+                                    <option value="Open" {% if draftData.first_event_category == 'Open' %} selected {% endif %}>Open</option>
                                     <option value="90+" {% if draftData.first_event_category == '90+' %} selected {% endif %}>90+</option>
                                     <option value="105+" {% if draftData.first_event_category == '105+' %} selected {% endif %}>105+</option>
                                     <option value="120+" {% if draftData.first_event_category == '120+' %} selected {% endif %}>120+</option>
@@ -209,16 +209,19 @@
                             <select id="first_event" name="first_event">
                                 {% if loggedUser %}
                                     {% if loggedUser.first_event_partner == "Not Registered" and loggedUser.first_event_id == "Not Registered" %}
-                                    <option value="Not Registered">Not Registered</option>
-                                {% else %}
-                                    <option value="{{ loggedUser.first_event_partner }}-{{ loggedUser.first_event_id }}">{{ loggedUser.first_event_partner }} ({{ loggedUser.first_event_id }}) </option>
-                                {% endif%}
-                                {% for participant in participants %}
-                                        <option value="{{ participant.name }}-{{ participant.participant_id }}">{{ participant.name }} ({{ participant.participant_id }})</option>
+                                        <option value="Not Registered">Not Registered</option>
+                                    {% else %}
+                                        <option value="{{ loggedUser.first_event_partner }}-{{ loggedUser.first_event_id }}">{{ loggedUser.first_event_partner }} ({{ loggedUser.first_event_id }}) </option>
+                                    {% endif %}
+                                    {% for participant in participants %}
+                                        {% if participant.name == loggedUser.first_event_partner and participant.participant_id == loggedUser.first_event_id %}
+                                            <option value="{{ participant.name }}-{{ participant.participant_id }}" selected>{{ participant.name }} ({{ participant.participant_id }})</option>
+                                        {% else %}
+                                            <option value="{{ participant.name }}-{{ participant.participant_id }}">{{ participant.name }} ({{ participant.participant_id }})</option>
+                                        {% endif %}
                                     {% endfor %}
                                 {% elif draftData.first_event_partner %}
                                     <option value="{{ draftData.first_event_partner }}-{{ draftData.first_event_id }}">{{ draftData.first_event_partner }} ({{ draftData.first_event_id }})</option>
-                                
                                 {% else %}
                                     <option value="" disabled selected>Select Partner</option>
                                     {% for participant in participants %}
@@ -228,17 +231,18 @@
                                 {% endif %}
                             </select>
                             
+                            
                             <label for="First_event">Your First-Event Partner:</label>
                         </div>
                         <div class="input-field col s12 m4">
                             <select id="second_event_category" name="second_event_category" required>
                                 {% if loggedUser %}
-                                <option value="75+" {% if loggedUser.second_event_category == '75+' %} selected {% endif %}>75+</option>
+                                <option value="Open" {% if loggedUser.second_event_category == 'Open' %} selected {% endif %}>Open</option>
                                 <option value="90+" {% if loggedUser.second_event_category == '90+' %} selected {% endif %}>90+</option>
                                 <option value="105+" {% if loggedUser.second_event_category == '105+' %} selected {% endif %}>105+</option>
                                 <option value="120+" {% if loggedUser.second_event_category == '120+' %} selected {% endif %}>120+</option>
                                 {% elif draftData.second_event_category %}
-                                <option value="75+" {% if draftData.second_event_category == '75+' %} selected {% endif %}>75+</option>
+                                <option value="Open" {% if draftData.second_event_category == 'Open' %} selected {% endif %}>Open</option>
                                 <option value="90+" {% if draftData.second_event_category == '90+' %} selected {% endif %}>90+</option>
                                 <option value="105+" {% if draftData.second_event_category == '105+' %} selected {% endif %}>105+</option>
                                 <option value="120+" {% if draftData.second_event_category == '120+' %} selected {% endif %}>120+</option>
@@ -258,14 +262,18 @@
                     <div class="row last_div">
                         <div class="input-field col s12 m4">
                             <select id="second_event" name="second_event">
-                                {% if loggedUser%}
-                                    {% if loggedUser.first_event_partner == "Not Registered" and loggedUser.first_event_id == "Not Registered" %}
+                                {% if loggedUser %}
+                                    {% if loggedUser.second_event_partner == "Not Registered" and loggedUser.second_event_id == "Not Registered" %}
                                         <option value="Not Registered">Not Registered</option>
                                     {% else %}
                                         <option value="{{ loggedUser.second_event_partner }}-{{ loggedUser.second_event_id }}">{{ loggedUser.second_event_partner }} ({{ loggedUser.second_event_id }}) </option>
                                     {% endif %}    
                                     {% for participant in participants %}
-                                        <option value="{{ participant.name }}-{{ participant.participant_id }}">{{ participant.name }} ({{ participant.participant_id }})</option>
+                                        {% if participant.name == loggedUser.second_event_partner and participant.participant_id == loggedUser.second_event_id %}
+                                            <option value="{{ participant.name }}-{{ participant.participant_id }}" selected>{{ participant.name }} ({{ participant.participant_id }})</option>
+                                        {% else %}
+                                            <option value="{{ participant.name }}-{{ participant.participant_id }}">{{ participant.name }} ({{ participant.participant_id }})</option>
+                                        {% endif %}
                                     {% endfor %}
                                 {% elif draftData.second_event_partner %}
                                     <option value="{{ draftData.second_event_partner }}-{{ draftData.second_event_id }}">{{ draftData.second_event_partner }} ({{ draftData.second_event_id }}) </option>
@@ -277,6 +285,7 @@
                                     <option value="Not Registered">Not Registered</option>
                                 {% endif %}
                             </select>
+                            
                             <label for="second_event">Your second-Event Partner:</label>
                         </div>
                         
