@@ -68,17 +68,17 @@
 			</div>
 		</div>
 	</div>
-	<div class="card-container">
+	<div class="card-container" style="padding: 10px;">
 		{% for card in cards %}
-		<div class="card">
-			<div class="card-content">
-				<h5 id="card-heading">{{ card.heading }}</h5>
-				<ul>
+		<div class="card" style="word-wrap: break-word;">
+			<div class="card-content" style="word-wrap: break-word;">
+				<h5 style="word-wrap: break-word;" id="card-heading">{{ card.heading }}</h5>
+				<ul style="word-wrap: break-word;">
 					{% if card.point1 %}
-					<li>{{ card.point1 }}</li>
+					<li style="word-wrap: break-word;">{{ card.point1 }}</li>
 					{% endif %}
 					{% if card.point2 %}
-					<li>{{ card.point2 }}</li>
+					<li style="word-wrap: break-word;">{{ card.point2 }}</li>
 					{% endif %}
 					{% if card.point3 %}
 					<li>{{ card.point3 }}</li>
@@ -137,36 +137,3 @@
 </body>
 
 </html>
-
-<!-- <div class="cards">
-		<div class="wrapper">
-			{% for card in cards %}
-			<div class="slider">
-				<div class="card card1">
-					<div class="container">
-						<h1>{{ card.heading }}</h1>
-					</div>
-					<div class="details">
-						<ul>
-							{% if card.point1 %}
-							<li>{{ card.point1 }}</li>
-							{% endif %}
-							{% if card.point2 %}
-							<li>{{ card.point2 }}</li>
-							{% endif %}
-							{% if card.point3 %}
-							<li>{{ card.point3 }}</li>
-							{% endif %}
-							{% if card.point4 %}
-							<li>{{ card.point4 }}</li>
-							{% endif %}
-							{% if card.point5 %}
-							<li>{{ card.point5 }}</li>
-							{% endif %}
-						</ul>
-					</div>
-				</div>
-			</div>
-			{% endfor %}
-		</div>
-	</div> -->

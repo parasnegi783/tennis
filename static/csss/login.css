@@ -93,3 +93,20 @@ body {
     background-color: #4070f4; /* Original button color */
     box-shadow: none;
 }
+
+.buttonss{
+    position: absolute;
+    right: 300px;
+}
+
+#backButton{
+    position: absolute;
+    right: -120px;
+}
+
+@media (max-width:768px) {
+    .buttonss {
+        display: flex;
+        flex-direction:row; 
+    }
+}
