@@ -10,7 +10,7 @@ class card(models.Model):
 
     def __str__(self):
         return str(self.heading)
-
+    
 class Participant(models.Model):
     participant_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100,null=True, default=None)
@@ -32,5 +32,28 @@ class Participant(models.Model):
     def __str__(self):
         return str(self.name)
     
+class Event(models.Model):
+    name = models.CharField(max_length=100)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
 
+    def __str__(self):
+        return self.name
+
+class BankDetail(models.Model):
+    account_number = models.CharField(max_length=20)
+    ifsc_code = models.CharField(max_length=20)
+    bank_name = models.CharField(max_length=100)
+    branch_name = models.CharField(max_length=100)
+    qr_code_image = models.ImageField(upload_to='qr_codes/')
+
+    def __str__(self):
+        return f'{self.bank_name} ({self.branch_name})'
+
+class PaymentInfo(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    additional_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    bank_detail = models.ForeignKey(BankDetail, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'Payment Info for {self.event.name}'
 

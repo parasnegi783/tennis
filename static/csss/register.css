@@ -263,24 +263,6 @@ col s12 m4 submit {
     justify-content: center;
 }
 
-/*     
-    @media (max-width: 768px) {
-        .buttonss {
-            display: flex;
-            flex-wrap: wrap; 
-            justify-content: space-between; 
-        }
-        .buttonss .col.s12.m4 {
-            flex: 0 0 48%; 
-            max-width: 48%; 
-            box-sizing: border-box; 
-            padding: 0 10px; 
-        }
-        .submit, .back {
-            max-width: none; 
-            background-color: #2e2e2e; 
-        }
-    } */
 
 @media (max-width:768px) {
     .buttonss {

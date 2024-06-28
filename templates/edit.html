@@ -27,17 +27,17 @@
                     <div class="row">
                         <div class="input-field col s12 m4">
                             <input id="name" type="text" class="validate" name="name"  {% if loggedUser %}
-                                value="{{ loggedUser.name }}" {% endif %} required disabled>
+                                value="{{ loggedUser.name }}" {% endif %}>
                             <label for="name">Full Name</label>
                         </div>
                         <div class="input-field col s12 m4">
                             <input id="date_of_birth" type="text" class="datepicker" name="date_of_birth" 
-                            {% if loggedUser %} value="{{ loggedUser.date_of_birth|date:'Y-m-d' }}" {% endif %} required disabled >
+                            {% if loggedUser %} value="{{ loggedUser.date_of_birth|date:'Y-m-d' }}" {% endif %} required>
                             <label for="date_of_birth">Date of Birth</label>
                         </div>
                         <div class="input-field col s12 m4">
                             <input id="whatsapp_number" type="number" class="validate" name="whatsapp_number"
-                            {% if loggedUser %} value="{{ loggedUser.whatsapp_number }}" {% endif %} required disabled>
+                            {% if loggedUser %} value="{{ loggedUser.whatsapp_number }}" {% endif %} required>
                             <label for="whatsapp_number">Whatsapp Number</label>
                         </div>
                     </div>
@@ -47,17 +47,17 @@
                             <input id="city" type="text" class="validate" name="city" 
                             {% if loggedUser %}
                                 value="{{ loggedUser.city }}" 
-                            {% endif %} required disabled>
+                            {% endif %} required>
                             <label for="city">City</label>
                         </div>
                         <div class="input-field col s12 m4">
                             <input id="email" type="email" class="validate" name="email" 
                             {% if loggedUser %}
-                                value="{{ loggedUser.email }}" {% endif %} required disabled>
+                                value="{{ loggedUser.email }}" {% endif %} required>
                             <label for="email">Email</label>
                         </div>
                         <div class="input-field col s12 m4">
-                            <select id="indian_tree_tshirt_size" name="indian_tree_tshirt_size" disabled>                                 
+                            <select id="indian_tree_tshirt_size" name="indian_tree_tshirt_size" >                                 
                                 {% if loggedUser %}
                                     <option value="small" {% if loggedUser.indian_tree_tshirt_size == 'small' %} selected {% endif %}>Small</option>
                                     <option value="medium" {% if loggedUser.indian_tree_tshirt_size == 'medium' %} selected {% endif %}>Medium</option>
@@ -81,7 +81,7 @@
 
                     <div class="row">
                         <div class="input-field col s12 m4">
-                            <select id="indian_tree_shorts_size" name="indian_tree_shorts_size" disabled>
+                            <select id="indian_tree_shorts_size" name="indian_tree_shorts_size" >
                             {% if loggedUser %}
                                 <option value="small" {% if loggedUser.indian_tree_shorts_size == 'small' %} selected {% endif %}>Small</option>
                                 <option value="medium" {% if loggedUser.indian_tree_shorts_size == 'medium' %} selected {% endif %}>Medium</option>
@@ -101,7 +101,7 @@
                             <label for="Shorts-size">Indian Tree Shorts Size:</label>
                         </div>
                         <div class="input-field col s12 m4">
-                            <select id="food_preference" name="food_preference" disabled>
+                            <select id="food_preference" name="food_preference" >
                                 {% if loggedUser %}
                                     <option value="non-vegetarian" {% if loggedUser.food_preference == 'non-vegetarian' %} selected {% endif %}>Non-Vegetarian</option>
                                     <option value="vegetarian" {% if loggedUser.food_preference == 'vegetarian' %} selected {% endif %}>Vegetarian</option>
@@ -115,7 +115,7 @@
                             <label for="food-preference">Gala Dinner Food Preference:</label>
                         </div>
                         <div class="input-field col s12 m4">
-                            <select id="stay_arrangement" name="stay_arrangement" disabled>
+                            <select id="stay_arrangement" name="stay_arrangement" >
                                 {% if loggedUser %}
                                     <option value="yes" {% if loggedUser.stay_arrangement == 'yes' %} selected {% endif %}>Yes</option>
                                     <option value="no" {% if loggedUser.stay_arrangement == 'no' %} selected {% endif %}>No</option>
@@ -130,7 +130,7 @@
 
                     <div class="row">
                         <div class="input-field col s12 m4">
-                            <select id="first_event_category" name="first_event_category" required disabled >
+                            <select id="first_event_category" name="first_event_category" required >
                                 {% if loggedUser %}
                                     <option value="Open" {% if loggedUser.first_event_category == 'Open' %} selected {% endif %}>Open</option>
                                     <option value="90+" {% if loggedUser.first_event_category == '90+' %} selected {% endif %}>90+</option>
@@ -148,7 +148,7 @@
                             <label for="first_event_category">Your First-Event Category:</label>
                         </div>
                         <div class="input-field col s12 m4">
-                            <select id="first_event" name="first_event" disabled>
+                            <select id="first_event" name="first_event" required>
                                 {% if loggedUser %}
                                     {% if loggedUser.first_event_partner == "Not Registered Yet" and loggedUser.first_event_id == "Not Registered Yet" %}
                                         <option value="Not Registered Yet" selected>Not Registered Yet</option>
@@ -157,11 +157,10 @@
                                     {% endif %}
                                 {% endif %}                                  
                             </select>                            
-                            
                             <label for="First_event">Your First-Event Partner:</label>
                         </div>
                         <div class="input-field col s12 m4">
-                            <select id="second_event_category" name="second_event_category" required disabled>
+                            <select id="second_event_category" name="second_event_category" required>
                                 {% if loggedUser %}
                                 <option value="Open" {% if loggedUser.second_event_category == 'Open' %} selected {% endif %}>Open</option>
                                 <option value="90+" {% if loggedUser.second_event_category == '90+' %} selected {% endif %}>90+</option>
@@ -181,7 +180,7 @@
                     </div>
                     <div class="row last_div">
                         <div class="input-field col s12 m4">
-                            <select id="second_event" name="second_event" disabled>
+                            <select id="second_event" name="second_event" required>
                                 {% if loggedUser %}
                                     {% if loggedUser.second_event_partner == "Not Registered Yet" and loggedUser.second_event_id == "Not Registered Yet" %}
                                         <option value="Not Registered Yet" selected>Not Registered Yet</option>
@@ -199,6 +198,9 @@
 
                             <div class="col s12 m4 submit" style="display: flex; justify-content: center;">
                                 <div id="backButton" class="btn waves-effect waves-light" href="home">Back</div>
+                            </div>
+                            <div class="col s12 m4 back" style="display: flex; justify-content: center;">
+                                <button class="btn waves-effect waves-light" id="submitButton" type="submit" name="action">Submit</button>
                             </div>
                         </div>
                         
@@ -232,12 +234,184 @@
 	{% endif %}
     
     <script>
+        var loggedInParticipantName = '{{ loggedInParticipantName|escapejs }}';
+        var loggedInParticipantId = '{{ loggedInParticipantId|escapejs }}';
+        console.log("Logged in participant name:", loggedInParticipantName);
+        console.log("Logged in participant ID:", loggedInParticipantId);
+
+        $(document).ready(function() {
+            $('select').formSelect();
+            
+            // Bind the change event handlers
+            $('#first_event_category').change(handleFirstEventCategoryChange);
+            $('#second_event_category').change(handleSecondEventCategoryChange);
+
+            // Call the functions on page load
+            handleFirstEventCategoryChange();
+            handleSecondEventCategoryChange();
+        });
+
+        function handleFirstEventCategoryChange() {
+            var category = $('#first_event_category').val();  // Get selected value
+            console.log("Selected category (first):", category);  // Debugging statement
+
+            // Perform AJAX request to fetch participants based on selected category
+            $.ajax({
+                url: '/fetch_participantss/',  // Replace with your backend URL to fetch participants
+                method: 'GET',
+                data: {
+                    category: category  // Send selected category as data
+                },
+                beforeSend: function() {
+                    console.log("Sending AJAX request...");  // Debugging statement before sending request
+                },
+                success: function(data) {
+                    console.log("AJAX request successful. Response:", data);  
+
+                    // Clear existing options and re-initialize Materialize Select
+                    $('#first_event').empty();  // Clear options
+                    if (data.logged_in_first_event_partner=="Not Registered Yet") {
+                        var partnerOptionText = data.logged_in_first_event_partner;
+                        var partnerOptionValue = data.logged_in_first_event_partner + '-' + data.logged_in_first_event_partner_id;
+                        console.log("Adding logged-in user's first event partner option:", partnerOptionText, partnerOptionValue);  // Debugging statement for partner option
+
+                        $('#first_event').append($('<option>', {
+                            value: partnerOptionValue,
+                            text: partnerOptionText,
+                            selected: true  // Pre-select this option
+                        }));
+                    } else {
+                        var partnerOptionText = data.logged_in_first_event_partner + ' (' + data.logged_in_first_event_partner_id + ')';
+                        var partnerOptionValue = data.logged_in_first_event_partner + '-' + data.logged_in_first_event_partner_id;
+                        console.log("Adding logged-in user's first event partner option:", partnerOptionText, partnerOptionValue);  // Debugging statement for partner option
+
+                        $('#first_event').append($('<option>', {
+                            value: partnerOptionValue,
+                            text: partnerOptionText,
+                            selected: true  // Pre-select this option
+                        }));
+                    }
+                    $.each(data.participants, function(index, participant) {
+                        // Skip adding the logged-in participant
+                        if (participant.name === loggedInParticipantName && String(participant.participant_id) === loggedInParticipantId) {
+                            return true;  // Continue to the next iteration
+                        }
+
+                        var optionText = participant.name + ' (' + participant.participant_id + ')';
+                        var optionValue = participant.name + '-' + participant.participant_id;
+                        console.log("Adding option:", optionText, optionValue);  // Debugging statement for each option
+
+                        // Add option using Materialize's Select method
+                        $('#first_event').append($('<option>', {
+                            value: optionValue,
+                            text: optionText
+                        }));
+                    });
+                    $('#first_event').append($('<option>', {
+                        value: 'Not Registered Yet',
+                        text: 'Not Registered Yet'
+                    }));
+
+                    // Refresh Materialize Select to reflect changes
+                    $('select').formSelect();
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching participants:', error);  // Debugging statement for error handling
+                },
+                complete: function() {
+                    console.log("AJAX request completed.");  // Debugging statement after request completes (whether success or error)
+                }
+            });
+        }
+
+        function handleSecondEventCategoryChange() {
+            var category = $('#second_event_category').val();  // Get selected value
+            console.log("Selected category (second):", category);  // Debugging statement
+
+            // Perform AJAX request to fetch participants based on selected category
+            $.ajax({
+                url: '/load_participants/',  // Replace with your backend URL to fetch participants
+                method: 'GET',
+                data: {
+                    category: category  // Send selected category as data
+                },
+                beforeSend: function() {
+                    console.log("Sending AJAX request...");  // Debugging statement before sending request
+                },
+                success: function(data) {
+                    console.log("AJAX request successful. Response:", data);  
+
+                    // Clear existing options and re-initialize Materialize Select
+                    $('#second_event').empty();  // Clear options
+                    if (data.logged_in_second_event_partner=="Not Registered Yet") {
+                        var partnerOptionText = data.logged_in_second_event_partner;
+                        var partnerOptionValue = data.logged_in_second_event_partner + '-' + data.logged_in_second_event_partner_id;
+                        console.log("Adding logged-in user's second event partner option:", partnerOptionText, partnerOptionValue);  // Debugging statement for partner option
+
+                        $('#second_event').append($('<option>', {
+                            value: partnerOptionValue,
+                            text: partnerOptionText,
+                            selected: true  // Pre-select this option
+                        }));
+                    } else {
+                        var partnerOptionText = data.logged_in_second_event_partner;
+                        var partnerOptionValue = data.logged_in_second_event_partner + '-' + data.logged_in_second_event_partner_id;
+                        console.log("Adding logged-in user's second event partner option:", partnerOptionText, partnerOptionValue);  // Debugging statement for partner option
+
+                        $('#second_event').append($('<option>', {
+                            value: partnerOptionValue,
+                            text: partnerOptionText,
+                            selected: true  // Pre-select this option
+                        }));
+                    }
+                    $.each(data.participants, function(index, participant) {
+                        // Skip adding the logged-in participant
+                        if (participant.name === loggedInParticipantName && String(participant.participant_id) === loggedInParticipantId) {
+                            return true;  // Continue to the next iteration
+                        }
+
+                        var optionText = participant.name + ' (' + participant.participant_id + ')';
+                        var optionValue = participant.name + '-' + participant.participant_id;
+                        console.log("Adding option:", optionText, optionValue);  // Debugging statement for each option
+
+                        // Add option using Materialize's Select method
+                        $('#second_event').append($('<option>', {
+                            value: optionValue,
+                            text: optionText
+                        }));
+                    });
+                    $('#second_event').append($('<option>', {
+                        value: 'Not Registered Yet',
+                        text: 'Not Registered Yet'
+                    }));
+
+                    // Refresh Materialize Select to reflect changes
+                    $('select').formSelect();
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching participants:', error);  // Debugging statement for error handling
+                },
+                complete: function() {
+                    console.log("AJAX request completed.");  // Debugging statement after request completes (whether success or error)
+                }
+            });
+        }
+
+    </script>
+    <script>
         document.getElementById("backButton").onclick = function() {
-        window.location.href = "home";
+        window.location.href = "detail";
     }
-    function editDraft() {
-        window.location.href = "edit";
-    }
+
+    var elems = document.querySelectorAll('.datepicker');
+    var instances = M.Datepicker.init(elems, {
+        format: 'yyyy-mm-dd',
+        yearRange: [1900, 2024],
+        setDefaultDate: true,
+        i18n: {
+            done: 'Select'
+        }
+    });
 
     function saveDraft() {
         var draftData = {
@@ -321,6 +495,9 @@
         M.FormSelect.init(document.querySelectorAll('select'));
     });
 
+    function clearDraft() {
+        localStorage.removeItem('draftData');
+    }
     
     M.FormSelect.init(document.querySelectorAll('select'));
     </script>

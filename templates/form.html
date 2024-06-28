@@ -10,7 +10,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    
 </head>
 
 
@@ -21,58 +20,42 @@
             <div class="col s12">
                 <div class="card-panel">
                     <span class="title">Personal Details</span>
-                        <div class="btn-floating btn-small waves-effect waves-light blue" id="smallButton" onclick="editDraft()">
-                            <i class="material-icons" id="buttonIcon">edit</i>
+                    
+                        <div class="btn-floating btn-small waves-effect waves-light blue" id="smallButton" onclick="saveDraft()">
+                            <i class="material-icons" id="buttonIcon">add</i>
                         </div>
                     <div class="row">
                         <div class="input-field col s12 m4">
-                            <input id="name" type="text" class="validate" name="name"  {% if loggedUser %}
-                                value="{{ loggedUser.name }}" {% endif %} required disabled>
+                            <input id="name" type="text" class="validate" name="name">
                             <label for="name">Full Name</label>
                         </div>
                         <div class="input-field col s12 m4">
-                            <input id="date_of_birth" type="text" class="datepicker" name="date_of_birth" 
-                            {% if loggedUser %} value="{{ loggedUser.date_of_birth|date:'Y-m-d' }}" {% endif %} required disabled >
+                            <input id="date_of_birth" type="text" class="datepicker" name="date_of_birth">
                             <label for="date_of_birth">Date of Birth</label>
                         </div>
                         <div class="input-field col s12 m4">
-                            <input id="whatsapp_number" type="number" class="validate" name="whatsapp_number"
-                            {% if loggedUser %} value="{{ loggedUser.whatsapp_number }}" {% endif %} required disabled>
+                            <input id="whatsapp_number" type="number" class="validate" name="whatsapp_number">
                             <label for="whatsapp_number">Whatsapp Number</label>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="input-field col s12 m4">
-                            <input id="city" type="text" class="validate" name="city" 
-                            {% if loggedUser %}
-                                value="{{ loggedUser.city }}" 
-                            {% endif %} required disabled>
+                            <input id="city" type="text" class="validate" name="city" >
                             <label for="city">City</label>
                         </div>
                         <div class="input-field col s12 m4">
-                            <input id="email" type="email" class="validate" name="email" 
-                            {% if loggedUser %}
-                                value="{{ loggedUser.email }}" {% endif %} required disabled>
+                            <input id="email" type="email" class="validate" name="email">
                             <label for="email">Email</label>
                         </div>
                         <div class="input-field col s12 m4">
-                            <select id="indian_tree_tshirt_size" name="indian_tree_tshirt_size" disabled>                                 
-                                {% if loggedUser %}
-                                    <option value="small" {% if loggedUser.indian_tree_tshirt_size == 'small' %} selected {% endif %}>Small</option>
-                                    <option value="medium" {% if loggedUser.indian_tree_tshirt_size == 'medium' %} selected {% endif %}>Medium</option>
-                                    <option value="large" {% if loggedUser.indian_tree_tshirt_size == 'large' %} selected {% endif %}>Large</option>
-                                    <option value="xlarge" {% if loggedUser.indian_tree_tshirt_size == 'xlarge' %} selected {% endif %}>XLarge</option>
-                                    <option value="xxlarge" {% if loggedUser.indian_tree_tshirt_size == 'xxlarge' %} selected {% endif %}>XXLarge</option>
-                                    <option value="no_need" {% if loggedUser.indian_tree_tshirt_size == 'no_need' %} selected {% endif %}>I don't need</option>
-                                {% else %}
+                            <select id="indian_tree_tshirt_size" name="indian_tree_tshirt_size" >  
                                     <option value="no_need" selected>I don't need</option>
                                     <option value="small">Small</option>
                                     <option value="medium">Medium</option>
                                     <option value="large">Large</option>
                                     <option value="xlarge">XLarge</option>
                                     <option value="xxlarge">XXLarge</option>
-                                {% endif %}
                             </select>
                             <label for="indian_tree_tshirt-size">Indian Tree T-Shirt Size</label>
                                
@@ -81,48 +64,28 @@
 
                     <div class="row">
                         <div class="input-field col s12 m4">
-                            <select id="indian_tree_shorts_size" name="indian_tree_shorts_size" disabled>
-                            {% if loggedUser %}
-                                <option value="small" {% if loggedUser.indian_tree_shorts_size == 'small' %} selected {% endif %}>Small</option>
-                                <option value="medium" {% if loggedUser.indian_tree_shorts_size == 'medium' %} selected {% endif %}>Medium</option>
-                                <option value="large" {% if loggedUser.indian_tree_shorts_size == 'large' %} selected {% endif %}>Large</option>
-                                <option value="xlarge" {% if loggedUser.indian_tree_shorts_size == 'xlarge' %} selected {% endif %}>XLarge</option>
-                                <option value="xxlarge" {% if loggedUser.indian_tree_shorts_size == 'xxlarge' %} selected {% endif %}>XXLarge</option>
-                                <option value="no_need" {% if loggedUser.indian_tree_shorts_size == 'no_need' %} selected {% endif %}>I don't need</option>
-                           {% else %}
+                            <select id="indian_tree_shorts_size" name="indian_tree_shorts_size" >
                                 <option value="no_need" selected>I don't need</option>
                                 <option value="small">Small</option>
                                 <option value="medium">Medium</option>
                                 <option value="large">Large</option>
                                 <option value="xlarge">XLarge</option>
                                 <option value="xxlarge">XXLarge</option>
-                            {% endif %}
                             </select>
                             <label for="Shorts-size">Indian Tree Shorts Size:</label>
                         </div>
                         <div class="input-field col s12 m4">
-                            <select id="food_preference" name="food_preference" disabled>
-                                {% if loggedUser %}
-                                    <option value="non-vegetarian" {% if loggedUser.food_preference == 'non-vegetarian' %} selected {% endif %}>Non-Vegetarian</option>
-                                    <option value="vegetarian" {% if loggedUser.food_preference == 'vegetarian' %} selected {% endif %}>Vegetarian</option>
-                                    <option value="not-attending" {% if loggedUser.food_preference == 'not-attending' %} selected {% endif %}>Not-attending</option>
-                                {% else %}
+                            <select id="food_preference" name="food_preference" >
                                     <option value="not-attending" selected>Not-attending</option>
                                     <option value="non-vegetarian">Non-Vegetarian</option>
                                     <option value="vegetarian">Vegetarian</option>
-                                {% endif %}
                             </select>
                             <label for="food-preference">Gala Dinner Food Preference:</label>
                         </div>
                         <div class="input-field col s12 m4">
-                            <select id="stay_arrangement" name="stay_arrangement" disabled>
-                                {% if loggedUser %}
-                                    <option value="yes" {% if loggedUser.stay_arrangement == 'yes' %} selected {% endif %}>Yes</option>
-                                    <option value="no" {% if loggedUser.stay_arrangement == 'no' %} selected {% endif %}>No</option>
-                                {% else %}
+                            <select id="stay_arrangement" name="stay_arrangement" >
                                     <option value="no" selected>No</option>
                                     <option value="yes">Yes</option>
-                                {% endif %}
                             </select>
                             <label for="accommodation">Need place to stay?</label>
                         </div>
@@ -130,50 +93,32 @@
 
                     <div class="row">
                         <div class="input-field col s12 m4">
-                            <select id="first_event_category" name="first_event_category" required disabled >
-                                {% if loggedUser %}
-                                    <option value="Open" {% if loggedUser.first_event_category == 'Open' %} selected {% endif %}>Open</option>
-                                    <option value="90+" {% if loggedUser.first_event_category == '90+' %} selected {% endif %}>90+</option>
-                                    <option value="105+" {% if loggedUser.first_event_category == '105+' %} selected {% endif %}>105+</option>
-                                    <option value="120+" {% if loggedUser.first_event_category == '120+' %} selected {% endif %}>120+</option>
-                                {% else %}
+                            <select id="first_event_category" name="first_event_category" required >
                                     <option value="" disabled selected>Select Category</option>
                                     <option value="Open">Open</option>
                                     <option value="90+">90+</option>
                                     <option value="105+">105+</option>
                                     <option value="120+">120+</option>
-                                {% endif %}
                             </select>
                             
                             <label for="first_event_category">Your First-Event Category:</label>
                         </div>
                         <div class="input-field col s12 m4">
-                            <select id="first_event" name="first_event" disabled>
-                                {% if loggedUser %}
-                                    {% if loggedUser.first_event_partner == "Not Registered Yet" and loggedUser.first_event_id == "Not Registered Yet" %}
-                                        <option value="Not Registered Yet" selected>Not Registered Yet</option>
-                                    {% else %}
-                                        <option value="{{ loggedUser.first_event_partner }}-{{ loggedUser.first_event_id }}">{{ loggedUser.first_event_partner }} ({{ loggedUser.first_event_id }}) </option>
-                                    {% endif %}
-                                {% endif %}                                  
+                            <select id="first_event" name="first_event"required>
+                                <option value="" disabled selected>Select Partner</option>
+                                <option value="Not Registered Yet">Not Registered Yet</option>                            
                             </select>                            
                             
                             <label for="First_event">Your First-Event Partner:</label>
                         </div>
                         <div class="input-field col s12 m4">
-                            <select id="second_event_category" name="second_event_category" required disabled>
-                                {% if loggedUser %}
-                                <option value="Open" {% if loggedUser.second_event_category == 'Open' %} selected {% endif %}>Open</option>
-                                <option value="90+" {% if loggedUser.second_event_category == '90+' %} selected {% endif %}>90+</option>
-                                <option value="105+" {% if loggedUser.second_event_category == '105+' %} selected {% endif %}>105+</option>
-                                <option value="120+" {% if loggedUser.second_event_category == '120+' %} selected {% endif %}>120+</option>
-                                {% else %}
+                            <select id="second_event_category" name="second_event_category" required>
                                 <option value="" disabled selected>Select Category</option>
                                 <option value="Open">Open</option>
                                 <option value="90+">90+</option>
                                 <option value="105+">105+</option>
                                 <option value="120+">120+</option>
-                                {% endif %}  </select>
+                            </select>
                             <label for="Second-event-category">Second-Event Category:</label>
                         </div>
                        
@@ -181,15 +126,9 @@
                     </div>
                     <div class="row last_div">
                         <div class="input-field col s12 m4">
-                            <select id="second_event" name="second_event" disabled>
-                                {% if loggedUser %}
-                                    {% if loggedUser.second_event_partner == "Not Registered Yet" and loggedUser.second_event_id == "Not Registered Yet" %}
-                                        <option value="Not Registered Yet" selected>Not Registered Yet</option>
-                                    {% else %}
-                                        <option value="{{ loggedUser.second_event_partner }}-{{ loggedUser.second_event_id }}">{{ loggedUser.second_event_partner }} ({{ loggedUser.second_event_id }}) </option>
-                                    {% endif %}    
-                                   
-                                {% endif %}
+                            <select id="second_event" name="second_event" required>
+                                    <option value="" disabled selected>Select Partner</option>
+                                    <option value="Not Registered Yet">Not Registered Yet</option>
                             </select>                            
                             
                             <label for="second_event">Your second-Event Partner:</label>
@@ -199,6 +138,9 @@
 
                             <div class="col s12 m4 submit" style="display: flex; justify-content: center;">
                                 <div id="backButton" class="btn waves-effect waves-light" href="home">Back</div>
+                            </div>
+                            <div class="col s12 m4 back" style="display: flex; justify-content: center;">
+                                <button class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
                             </div>
                         </div>
                         
@@ -232,12 +174,129 @@
 	{% endif %}
     
     <script>
+        $(document).ready(function() {
+            // Initialize Materialize Select component
+            $('select').formSelect();
+    
+            // Function to handle change event on first_event_category select
+            $('#first_event_category').change(function() {
+                var category = $(this).val();  // Get selected value
+                console.log("Selected category:", category);  // Debugging statement
+    
+                // Perform AJAX request to fetch participants based on selected category
+                $.ajax({
+                    url: '/fetch_participants/',  // Replace with your backend URL to fetch participants
+                    method: 'GET',
+                    data: {
+                        category: category  // Send selected category as data
+                    },
+                    beforeSend: function() {
+                        console.log("Sending AJAX request...");  // Debugging statement before sending request
+                    },
+                    success: function(data) {
+                        console.log("AJAX request successful. Response:", data);  
+    
+                        // Clear existing options and re-initialize Materialize Select
+                        $('#first_event').empty();  // Clear options
+                        $.each(data.participants, function(index, participant) {
+                            var optionText = participant.name + ' (' + participant.participant_id + ')';
+                            var optionValue = participant.name + '-' + participant.participant_id;
+                            console.log("Adding option:", optionText, optionValue);  // Debugging statement for each option
+    
+                            // Add option using Materialize's Select method
+                            $('#first_event').append($('<option>', {
+                                value: optionValue,
+                                text: optionText
+                            }));
+                        });
+                        $('#first_event').append($('<option>', {
+                            value: 'Not Registered Yet',
+                            text: 'Not Registered Yet'
+                        }));
+    
+                        // Refresh Materialize Select to reflect changes
+                        $('select').formSelect();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching participants:', error);  // Debugging statement for error handling
+                    },
+                    complete: function() {
+                        console.log("AJAX request completed.");  // Debugging statement after request completes (whether success or error)
+                    }
+                });
+            });
+        });
+
+        $(document).ready(function() {
+            // Initialize Materialize Select component
+            $('select').formSelect();
+    
+            // Function to handle change event on first_event_category select
+            $('#second_event_category').change(function() {
+                var category = $(this).val();  // Get selected value
+                console.log("Selected category:", category);  // Debugging statement
+    
+                // Perform AJAX request to fetch participants based on selected category
+                $.ajax({
+                    url: '/load_participant/',  // Replace with your backend URL to fetch participants
+                    method: 'GET',
+                    data: {
+                        category: category  // Send selected category as data
+                    },
+                    beforeSend: function() {
+                        console.log("Sending AJAX request...");  // Debugging statement before sending request
+                    },
+                    success: function(data) {
+                        console.log("AJAX request successful. Response:", data);  
+    
+                        // Clear existing options and re-initialize Materialize Select
+                        $('#second_event').empty();  // Clear options
+                        $.each(data.participants, function(index, participant) {
+                            var optionText = participant.name + ' (' + participant.participant_id + ')';
+                            var optionValue = participant.name + '-' + participant.participant_id;
+                            console.log("Adding option:", optionText, optionValue);  // Debugging statement for each option
+    
+                            // Add option using Materialize's Select method
+                            $('#second_event').append($('<option>', {
+                                value: optionValue,
+                                text: optionText
+                            }));
+                        });
+                        $('#second_event').append($('<option>', {
+                            value: 'Not Registered Yet',
+                            text: 'Not Registered Yet'
+                        }));
+    
+                        // Refresh Materialize Select to reflect changes
+                        $('select').formSelect();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching participants:', error);  // Debugging statement for error handling
+                    },
+                    complete: function() {
+                        console.log("AJAX request completed.");  // Debugging statement after request completes (whether success or error)
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
         document.getElementById("backButton").onclick = function() {
         window.location.href = "home";
     }
-    function editDraft() {
-        window.location.href = "edit";
-    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('.datepicker');
+            var instances = M.Datepicker.init(elems, {
+                format: 'yyyy-mm-dd',
+                yearRange: [1900, new Date().getFullYear()], // Set the year range from 1800 to the current year
+                defaultDate: new Date(), // Set the default date to today
+                setDefaultDate: true, // Display the default date in the datepicker input field
+                i18n: {
+                    done: 'Select'
+                }
+            });
+        });
 
     function saveDraft() {
         var draftData = {
@@ -321,7 +380,6 @@
         M.FormSelect.init(document.querySelectorAll('select'));
     });
 
-    
     M.FormSelect.init(document.querySelectorAll('select'));
     </script>
 </body>

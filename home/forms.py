@@ -20,16 +20,20 @@ class CreateUser(AbstractUser):
     def __str__(self):
         return self.username  # You can change this to whatsapp_number or any other field you prefer
 
+# from django import forms
+# from .models import FirstEventCategory, FirstEventName
 
+# class FirstEventNameForm(forms.Form):
+#     category = forms.ModelChoiceField(queryset=FirstEventCategory.objects.all(),
+#         widget=forms.Select(attrs={"hx-get": "load_event_names/", "hx-target": "#id_event_name"}))
+#     event_name = forms.ModelChoiceField(queryset=FirstEventName.objects.none())
+
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#         if "category" in self.data:
+#             try:
+#                 category_id = int(self.data.get("category"))
+#                 self.fields["event_name"].queryset = FirstEventName.objects.filter(category_id=category_id)
+#             except (ValueError, TypeError):
+#                 self.fields["event_name"].queryset = FirstEventName.objects.none()
 from django import forms
-from .models import Participant
-
-class ParticipantForm(forms.ModelForm):
-    class Meta:
-        model = Participant
-        fields = [
-            'name', 'date_of_birth', 'whatsapp_number', 'city', 'email',
-            'indian_tree_tshirt_size', 'indian_tree_shorts_size', 'food_preference',
-            'stay_arrangement', 'first_event_category', 'first_event_partner',
-            'first_event_id', 'second_event_category', 'second_event_partner', 'second_event_id'
-        ]

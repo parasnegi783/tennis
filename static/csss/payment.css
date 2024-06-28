@@ -1,0 +1,8 @@
+.qr-code{
+    width: 30vw;
+    height: 40vh;
+}
+
+.qr-code img{
+    width: 100%;
+}

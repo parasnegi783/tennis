@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <title>Neumorphic Card with QR Code</title>
+    <style>
+        body {
+            background-color: #E3F2FD;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            padding-top: 20px;
+        }
+
+        .card {
+            width: 90%;
+            max-width: 700px;
+            background-color: #f0f0f0;
+            border-radius: 20px;
+            box-shadow: 5px 5px 10px #bebebe, -5px -5px 10px #ffffff;
+            padding: 10px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .card:hover {
+            transform: scale(1.02);
+        }
+
+        .qr-code {
+            width: 100%;
+            max-width: 300px;
+            aspect-ratio: 664 / 885;
+            margin: 5px auto;
+            background-size: cover;
+            background-image: url('../static/image/bank qr code.jpeg');
+            border-radius: 10px;
+            box-shadow: 5px 5px 10px #bebebe, -5px -5px 10px #ffffff;
+        }
+
+        .message {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .message h2 {
+            font-size: 22px;
+        }
+
+        .flex-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            text-align: center;
+        }
+
+        .flex-item {
+            background-color: #f0f0f0;
+            border-radius: 20px;
+            box-shadow: 5px 5px 10px #bebebe, -5px -5px 10px #ffffff;
+            padding: 20px;
+            margin: 10px;
+            flex: 1 1 300px; /* Ensure each item takes up equal space with a minimum width */
+            max-width: 100%; /* Prevent items from growing beyond their container */
+        }
+
+        .submit-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-button:hover {
+            background-color: #45a049;
+        }
+
+        .submit {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <div class="qr-code" style="background-image: url('{{ bank_details.qr_code_image.url }}');"></div>
+        <div class="message">
+            <h2>Payment Information</h2>
+            <div class="flex-container">
+                <div class="flex-item one">
+                    <p>Please pay the fee as per your selection:</p>
+                    <ul>
+                        {% for event in events %}
+                        <li>{{ event.name }}: ₹{{ event.price }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="flex-item">
+                    <p>Bank Details:</p>
+                    <ul>
+                        <li>Account Number: {{ bank_details.account_number }}</li>
+                        <li>IFSC Code: {{ bank_details.ifsc_code }}</li>
+                        <li>Bank Name: {{ bank_details.bank_name }}</li>
+                        <li>Branch Name: {{ bank_details.branch_name }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col s12 m4 submit" style="display: flex; justify-content: center;">
+            <div id="backButton" class="btn waves-effect waves-light">Home</div>
+        </div>
+    </div>
+
+    <script>
+        function clearDraft() {
+            localStorage.removeItem('draftData');
+        }
+        document.getElementById("backButton").onclick = function () {
+            clearDraft();
+            window.location.href = "home";
+        };
+    </script>
+</body>
+
+</html>
