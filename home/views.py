@@ -388,7 +388,7 @@ def save_participant(request):
         print("Invalid request method:", request.method)
         return HttpResponse("Method not allowed", status=405)
     
-def uuupdate_event_partners_to_not_registered_ist(first_event_id_for_update,first_event_partner_for_update):
+def uuupdate_event_partners_to_not_registered_ist(first_event_partner_for_update,first_event_id_for_update):
     first_event_name=first_event_partner_for_update
     first_event_id=first_event_id_for_update
     try:
@@ -401,7 +401,7 @@ def uuupdate_event_partners_to_not_registered_ist(first_event_id_for_update,firs
     except (Participant.DoesNotExist, Participant.MultipleObjectsReturned) as e:
         print("Error updating first event partner:", e)
 
-def uuupdate_event_partners_to_not_registered_scnd(second_event_id_for_update,second_event_partner_for_update):
+def uuupdate_event_partners_to_not_registered_scnd(second_event_partner_for_update,second_event_id_for_update):
     second_event_name=second_event_partner_for_update
     second_event_id=second_event_id_for_update
     try:
@@ -525,16 +525,14 @@ def update_save_participant(request):
 
         old_whatsapp_number = loggedUser.whatsapp_number
         old_DateOfBirth = loggedUser.date_of_birth.strftime('%Y-%m-%d')
-        print("Old DateOfBirth:", old_DateOfBirth)
-        print('Old WhatsApp number:', old_whatsapp_number)
         first_event_id_for_update=loggedUser.first_event_id
         first_event_partner_for_update=loggedUser.first_event_partner
         if first_event_id_for_update!="Not Registered Yet" and first_event_id_for_update!="Not Registered Yet-Not Registered Yet":
-            uuupdate_event_partners_to_not_registered_ist(first_event_id_for_update,first_event_id_for_update)
+            uuupdate_event_partners_to_not_registered_ist(first_event_partner_for_update,first_event_id_for_update)
         second_event_id_for_update=loggedUser.second_event_id
         second_event_partner_for_update=loggedUser.second_event_partner
         if second_event_id_for_update!="Not Registered Yet" and second_event_id_for_update!="Not Registered Yet-Not Registered Yet":
-            uuupdate_event_partners_to_not_registered_scnd(second_event_id_for_update,second_event_id_for_update)
+            uuupdate_event_partners_to_not_registered_scnd(second_event_partner_for_update,second_event_id_for_update)
         # Update logged user's information
         loggedUser.name = name
         loggedUser.date_of_birth = date_of_birth
