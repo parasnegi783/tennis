@@ -99,11 +99,6 @@ body {
     right: 300px;
 }
 
-#backButton{
-    position: absolute;
-    right: -120px;
-}
-
 @media (max-width:768px) {
     .buttonss {
         display: flex;

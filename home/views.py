@@ -11,39 +11,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.http import HttpResponseNotAllowed
 from django.db.models import Q
+from home.helper import *
 
-
-
-def calculate_age(date_of_birth):
-    if isinstance(date_of_birth, str):
-        dob = datetime.strptime(date_of_birth, '%Y-%m-%d').date()
-    else:
-        dob = date_of_birth
-    today = date.today()
-    age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
-    return age
-
-
-def check_age_requirements(age, partner_age, category):
-    if category == 'Open':
-        if age > 30 and partner_age > 30:
-            return True
-    elif category == '90+':
-        required_age = 90
-    elif category == '105+':
-        required_age = 105
-    elif category == '120+':
-        required_age = 120
-    else:
-        return False
-
-    if age > 30 and partner_age > 30:
-        calculated_age = age + partner_age
-        print("Calculated age is", calculated_age)
-        if calculated_age >= required_age:
-            return True
-    
-    return False
 
 
 def home(request):
@@ -214,10 +183,6 @@ def loginUser(request):
     return render(request, 'login.html')
 
 
-def logoutUser(request):
-    logout(request)
-    request.session.clear()
-    return redirect("home")
 
 def logged_user(request):
     if request.method == 'POST':
@@ -227,6 +192,8 @@ def logged_user(request):
         if user is not None:
             login(request, user)
             request.session['username'] = username 
+            if user.is_superuser:  
+                return redirect('/admin/')
             return redirect('detail')
         else:
             messages.error(request, 'Invalid WhatsApp number or date of birth.')
@@ -234,39 +201,10 @@ def logged_user(request):
     else:
         return render(request, 'login.html')
 
-
-
-def update_event_partners(participant):
-    parti_name = participant.name
-    event_id = participant.participant_id
-    first_event_category_name = participant.first_event_category
-    second_event_category_name = participant.second_event_category
-    first_event_name = participant.first_event_partner
-    first_event_id = participant.first_event_id
-    if first_event_name != "Not Registered Yet" and first_event_id != "Not Registered Yet":
-        try:
-            first_event_partner = Participant.objects.get(name=first_event_name, participant_id=first_event_id)
-            first_event_partner.first_event_id = participant.participant_id
-            first_event_partner.first_event_partner = participant.name
-            first_event_partner.save()
-        except Participant.DoesNotExist:
-            print(f"Participant with name '{first_event_name}' and ID '{first_event_id}' does not exist.")
-        except Participant.MultipleObjectsReturned:
-            print(f"Multiple participants found with name '{first_event_name}' and ID '{first_event_id}'. Update failed.")
-
-    
-    second_event_name = participant.second_event_partner
-    second_event_id = participant.second_event_id
-    if second_event_name != "Not Registered Yet" and second_event_id != "Not Registered Yet":
-        try:
-            second_event_partner = Participant.objects.get(name=second_event_name, participant_id=second_event_id)
-            second_event_partner.second_event_id = participant.participant_id
-            second_event_partner.second_event_partner = participant.name
-            second_event_partner.save()
-        except Participant.DoesNotExist:
-            print(f"Participant with name '{second_event_name}' and ID '{second_event_id}' does not exist.")
-        except Participant.MultipleObjectsReturned:
-            print(f"Multiple participants found with name '{second_event_name}' and ID '{second_event_id}'. Update failed.")
+def logoutUser(request):
+    logout(request)
+    request.session.clear()
+    return redirect("home")
 
 
 def save_participant(request):
@@ -276,8 +214,8 @@ def save_participant(request):
         name = request.POST.get('name')
         date_of_birth = request.POST.get('date_of_birth')
         user_age = calculate_age(date_of_birth)
-        if user_age<30:
-            messages.error(request, "Your age do not meet the requirements.")
+        if user_age < 30:
+            messages.error(request, "Your age does not meet the requirements.")
             return redirect('register')
         whatsapp_number = request.POST.get('whatsapp_number')
         city = request.POST.get('city')
@@ -287,7 +225,6 @@ def save_participant(request):
         food_preference = request.POST.get('food_preference')
         stay_arrangement = request.POST.get('stay_arrangement')
         first_event_name = request.POST.get('first_event')
-
 
         if first_event_name != "Not Registered Yet":
             try:
@@ -316,13 +253,13 @@ def save_participant(request):
 
         first_event_category = request.POST.get('first_event_category')
         second_event_category = request.POST.get('second_event_category')
-        
+
         if first_event_name != 'Not Registered Yet':
             try:
                 first_event_partner_detail = Participant.objects.get(name=first_event_name, participant_id=first_event_id)
                 first_event_partner_age = calculate_age(first_event_partner_detail.date_of_birth)
                 if not check_age_requirements(user_age, first_event_partner_age, first_event_category):
-                    messages.error(request, "Your and First Event Partner age do not meet the requirements.")
+                    messages.error(request, "Your and First Event Partner's age do not meet the requirements.")
                     return redirect('register')
             except Participant.DoesNotExist:
                 messages.error(request, "First event partner does not exist.")
@@ -333,7 +270,7 @@ def save_participant(request):
                 second_event_partner_detail = Participant.objects.get(name=second_event_name, participant_id=second_event_id)
                 second_event_partner_age = calculate_age(second_event_partner_detail.date_of_birth)
                 if not check_age_requirements(user_age, second_event_partner_age, second_event_category):
-                    messages.error(request, "Your and Second Event Partner age do not meet the requirements.")
+                    messages.error(request, "Your and Second Event Partner's age do not meet the requirements.")
                     return redirect('register')
             except Participant.DoesNotExist:
                 messages.error(request, "Second event partner does not exist.")
@@ -370,10 +307,12 @@ def save_participant(request):
             second_event_category=second_event_category,
             second_event_id=second_event_id,
         )
-  
+
         try:
             new_participant.save()
             update_event_partners(new_participant)
+            if first_event_name != 'Not Registered Yet' or second_event_name != 'Not Registered Yet':
+                create_teams_for_events(new_participant, first_event_partner_detail, second_event_partner_detail, first_event_category, second_event_category)
             messages.success(request, 'Participant saved successfully.')
             return redirect('payment')
         except ObjectDoesNotExist:
@@ -387,57 +326,11 @@ def save_participant(request):
     else:
         print("Invalid request method:", request.method)
         return HttpResponse("Method not allowed", status=405)
+
+
+
     
-def uuupdate_event_partners_to_not_registered_ist(first_event_partner_for_update,first_event_id_for_update):
-    first_event_name=first_event_partner_for_update
-    first_event_id=first_event_id_for_update
-    try:
-        first_event_partners = Participant.objects.get(name=first_event_name, participant_id=first_event_id)
-        print("first_event_partners",first_event_partners)
-        first_event_partners.first_event_id = "Not Registered Yet"
-        first_event_partners.first_event_partner = "Not Registered Yet"
-        print("first_event_partners.first_event_id",first_event_partners.first_event_id)
-        first_event_partners.save()
-    except (Participant.DoesNotExist, Participant.MultipleObjectsReturned) as e:
-        print("Error updating first event partner:", e)
 
-def uuupdate_event_partners_to_not_registered_scnd(second_event_partner_for_update,second_event_id_for_update):
-    second_event_name=second_event_partner_for_update
-    second_event_id=second_event_id_for_update
-    try:
-        second_event_partners = Participant.objects.get(name=second_event_name, participant_id=second_event_id)
-        print("second_event_partners",second_event_partners)
-        second_event_partners.second_event_id = "Not Registered Yet"
-        second_event_partners.second_event_partner = "Not Registered Yet"
-        second_event_partners.save()
-    except (Participant.DoesNotExist, Participant.MultipleObjectsReturned) as e:
-        print("Error updating second event partner:", e)
-
-
-def uuupdate_event_partners_ist(participant):
-    first_event_name = participant.first_event_partner
-    first_event_id = participant.first_event_id
-    if first_event_name != "Not Registered Yet" and first_event_name != "Not Registered Yet-Not Registered Yet" and first_event_id != "Not Registered Yet" and first_event_id != "Not Registered Yet-Not Registered Yet":
-        try:
-            first_event_partners = Participant.objects.get(name=first_event_name, participant_id=first_event_id)
-            first_event_partners.first_event_id = participant.participant_id
-            first_event_partners.first_event_partner = participant.name
-            print("first_event_partners.first_event_id",first_event_partners.first_event_id)
-            first_event_partners.save()
-        except (Participant.DoesNotExist, Participant.MultipleObjectsReturned) as e:
-            print("Error updating first event partner:", e)
-
-def uuupdate_event_partners_scnd(participant):       
-    second_event_name = participant.second_event_partner
-    second_event_id = participant.second_event_id
-    if second_event_name != "Not Registered Yet" and second_event_name != "Not Registered Yet-Not Registered Yet" and second_event_id != "Not Registered Yet" and second_event_id != "Not Registered Yet-Not Registered Yet":  
-        try:
-            second_event_partners = Participant.objects.get(name=second_event_name, participant_id=second_event_id)
-            second_event_partners.second_event_id = participant.participant_id
-            second_event_partners.second_event_partner = participant.name
-            second_event_partners.save()
-        except (Participant.DoesNotExist, Participant.MultipleObjectsReturned) as e:
-            print("Error updating second event partner:", e)
     
 
 import logging
@@ -453,13 +346,16 @@ def update_save_participant(request):
         user = request.session.get('username')
         loggedUser = get_object_or_404(Participant, whatsapp_number=user)
 
+        # Get data from request
         name = request.POST.get('name')
         date_of_birth = request.POST.get('date_of_birth')
         user_age = calculate_age(date_of_birth)
         print("User age:", user_age)
-        if user_age<30:
-                messages.error(request, "Your and First Event Partner age do not meet the requirements.")
-                return redirect('edit')
+
+        if user_age < 30:
+            messages.error(request, "Your and First Event Partner age do not meet the requirements.")
+            return redirect('edit')
+
         whatsapp_number = request.POST.get('whatsapp_number')
         city = request.POST.get('city')
         email = request.POST.get('email')
@@ -473,41 +369,28 @@ def update_save_participant(request):
         second_event_category = request.POST.get('second_event_category')
 
         # Process first event name and ID
+        first_event_id = 'Not Registered Yet'
         if first_event_name != "Not Registered Yet":
-            try:
-                a, _, b = first_event_name.partition('-')
-                first_event_name = a.strip()
-                first_event_id = b.strip()
-            except ValueError as e:
-                print("Error unpacking first event name:", e)
-                pass
-        else:
-            first_event_name = 'Not Registered Yet'
-            first_event_id = 'Not Registered Yet'
+            a, _, b = first_event_name.partition('-')
+            first_event_name = a.strip()
+            first_event_id = b.strip()
 
         # Process second event name and ID
+        second_event_id = 'Not Registered Yet'
         if second_event_name != "Not Registered Yet":
-            try:
-                a, _, b = second_event_name.partition('-')
-                second_event_name = a.strip()
-                second_event_id = b.strip()
-            except ValueError as e:
-                print("Error unpacking first event name:", e)
-                pass
-        else:
-            second_event_name = 'Not Registered Yet'
-            second_event_id = 'Not Registered Yet'
-
+            a, _, b = second_event_name.partition('-')
+            second_event_name = a.strip()
+            second_event_id = b.strip()
 
         # Validate first event partner's age
         if first_event_name != 'Not Registered Yet':
             first_event_partner_detail = get_object_or_404(Participant, name=first_event_name, participant_id=first_event_id)
             first_event_partner_age = calculate_age(first_event_partner_detail.date_of_birth)
-            print("first_event_partner_age",first_event_partner_age)
+            print("first_event_partner_age", first_event_partner_age)
+
             if not check_age_requirements(user_age, first_event_partner_age, first_event_category):
                 messages.error(request, "Your and First Event Partner age do not meet the requirements.")
                 return redirect('edit')
-            first_event_id = first_event_partner_detail.participant_id
 
         # Validate second event partner's age
         if second_event_name != 'Not Registered Yet':
@@ -516,23 +399,24 @@ def update_save_participant(request):
             except Participant.DoesNotExist:
                 messages.error(request, "Participant with the specified details not found.")
                 return redirect('edit')
+
             second_event_partner_age = calculate_age(second_event_partner_detail.date_of_birth)
-            print("second_event_partner_age",second_event_partner_age)
+            print("second_event_partner_age", second_event_partner_age)
+
             if not check_age_requirements(user_age, second_event_partner_age, second_event_category):
                 messages.error(request, "Your and Second Event Partner age do not meet the requirements.")
                 return redirect('edit')
-            second_event_id = second_event_partner_detail.participant_id
 
         old_whatsapp_number = loggedUser.whatsapp_number
         old_DateOfBirth = loggedUser.date_of_birth.strftime('%Y-%m-%d')
-        first_event_id_for_update=loggedUser.first_event_id
-        first_event_partner_for_update=loggedUser.first_event_partner
-        if first_event_id_for_update!="Not Registered Yet" and first_event_id_for_update!="Not Registered Yet-Not Registered Yet":
-            uuupdate_event_partners_to_not_registered_ist(first_event_partner_for_update,first_event_id_for_update)
-        second_event_id_for_update=loggedUser.second_event_id
-        second_event_partner_for_update=loggedUser.second_event_partner
-        if second_event_id_for_update!="Not Registered Yet" and second_event_id_for_update!="Not Registered Yet-Not Registered Yet":
-            uuupdate_event_partners_to_not_registered_scnd(second_event_partner_for_update,second_event_id_for_update)
+
+        # Reset previous partners' details
+        if loggedUser.first_event_partner != "Not Registered Yet":
+            uuupdate_event_partners_to_not_registered_ist(loggedUser.first_event_partner, loggedUser.first_event_id)
+
+        if loggedUser.second_event_partner != "Not Registered Yet":
+            uuupdate_event_partners_to_not_registered_scnd(loggedUser.second_event_partner, loggedUser.second_event_id)
+
         # Update logged user's information
         loggedUser.name = name
         loggedUser.date_of_birth = date_of_birth
@@ -553,18 +437,23 @@ def update_save_participant(request):
         new_DateOfBirth = date_of_birth.strftime('%Y-%m-%d') if isinstance(date_of_birth, datetime) else date_of_birth
 
         loggedUser.save()
-        if first_event_id_for_update=="Not Registered Yet" or first_event_id_for_update=="Not Registered Yet-Not Registered Yet":
+
+        # Update Team-event Model
+        update_team_events(loggedUser)
+
+        # Update new partners' details
+        if first_event_name != 'Not Registered Yet':
             uuupdate_event_partners_ist(loggedUser)
-        elif second_event_id_for_update=="Not Registered Yet" or second_event_id_for_update=="Not Registered Yet-Not Registered Yet":
+
+        if second_event_name != 'Not Registered Yet':
             uuupdate_event_partners_scnd(loggedUser)
-        
+
         try:
-            
             user_object = User.objects.get(username=user)
 
             if old_whatsapp_number != whatsapp_number or old_DateOfBirth != new_DateOfBirth:
                 user_object.username = whatsapp_number
-                user_object.set_password(new_DateOfBirth) 
+                user_object.set_password(new_DateOfBirth)
                 user_object.save()
 
                 if old_whatsapp_number != whatsapp_number and old_DateOfBirth != new_DateOfBirth:
@@ -583,7 +472,7 @@ def update_save_participant(request):
                 messages.success(request, 'Participant information updated successfully.')
                 return redirect('detail')
         except Exception as e:
-            print("Are you searching for me",e)
+            print("Error updating user object:", e)
             messages.error(request, 'Failed to update participant information.')
             return redirect('edit')
     else:

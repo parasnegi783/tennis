@@ -10,7 +10,8 @@ class card(models.Model):
 
     def __str__(self):
         return str(self.heading)
-    
+
+
 class Participant(models.Model):
     participant_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100,null=True, default=None)
@@ -31,13 +32,32 @@ class Participant(models.Model):
 
     def __str__(self):
         return str(self.name)
-    
-class Event(models.Model):
-    name = models.CharField(max_length=100)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+
+class category(models.Model):
+    Event_category = models.CharField(max_length=100)
+    def __str__(self):
+        return str(self.Event_category)
+
+class TeamForFirstEvent(models.Model):
+    team_id = models.AutoField(primary_key=True)
+    first_partner = models.ForeignKey(Participant, related_name='first_event_first_partner', on_delete=models.CASCADE)
+    second_partner = models.ForeignKey(Participant, related_name='first_event_second_partner', on_delete=models.CASCADE)
+    event = models.ForeignKey(category, related_name='first_event_teams', on_delete=models.CASCADE,blank=True,default=None)
 
     def __str__(self):
-        return self.name
+        return f"Team ID: {self.team_id}, First Partner: {self.first_partner.name}, Second Partner: {self.second_partner.name}, Event: {self.event.Event_category}"
+
+
+class TeamForSecondEvent(models.Model):
+    team_id = models.AutoField(primary_key=True)
+    first_partner = models.ForeignKey(Participant, related_name='second_event_first_partner', on_delete=models.CASCADE)
+    second_partner = models.ForeignKey(Participant, related_name='second_event_second_partner', on_delete=models.CASCADE)
+    event = models.ForeignKey(category, related_name='second_event_teams', on_delete=models.CASCADE,blank=True,default=None)
+
+    def __str__(self):
+        return f"Team ID: {self.team_id}, First Partner: {self.first_partner.name}, Second Partner: {self.second_partner.name}, Event: {self.event.Event_category}"
+
+    
 
 class BankDetail(models.Model):
     account_number = models.CharField(max_length=20)
@@ -49,6 +69,12 @@ class BankDetail(models.Model):
     def __str__(self):
         return f'{self.bank_name} ({self.branch_name})'
 
+class Event(models.Model):
+    name = models.CharField(max_length=100)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return self.name
 class PaymentInfo(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     additional_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)

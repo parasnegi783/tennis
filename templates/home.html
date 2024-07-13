@@ -18,16 +18,20 @@
 			<a id="logo-container" href="#" class="brand-logo" style="color: #FDD835;">Tennis Doubles</a>
 			<ul class="right">
 				{% if request.user.is_authenticated %}
-				<li><a class="waves-effect waves-light btn yellow darken-1 bold" href="{% url 'logout' %}">Logout</a>
-				</li>
-				<li><a class="waves-effect waves-light btn yellow darken-1 bold" href="{% url 'detail' %}">Details</a>
-				</li>
+					<li><a class="waves-effect waves-light btn yellow darken-1 bold" href="{% url 'logout' %}">Logout</a></li>
+					{% if request.user.is_superuser %}
+						<li><a class="waves-effect waves-light btn yellow darken-1 bold" href="/admin/">Admin</a></li>
+					{% else %}
+						<li><a class="waves-effect waves-light btn yellow darken-1 bold" href="{% url 'detail' %}">Details</a></li>
+						<!-- <li><a class="waves-effect waves-light btn yellow darken-1 bold" href="{% url 'register' %}">Register</a></li> -->
+					{% endif %}
 				{% else %}
-				<li><a class="waves-effect waves-light btn yellow darken-1 bold" href="{% url 'login' %}">Login</a></li>
-				<li><a class="waves-effect waves-light btn yellow darken-1 bold"
-						href="{% url 'register' %}">Register</a></li>
+					<li><a class="waves-effect waves-light btn yellow darken-1 bold" href="{% url 'login' %}">Login</a></li>
+					<li><a class="waves-effect waves-light btn yellow darken-1 bold" href="{% url 'register' %}">Register</a></li>
 				{% endif %}
 			</ul>
+			
+			
 
 			<ul id="nav-mobile" class="sidenav">
 				{% if request.user.is_authenticated %}
